@@ -19,7 +19,7 @@ body {
   margin: -25em auto 0 auto;
 }
 
-#boyfriend,#lara{
+#boyfriend,#tenzile{
 	display: block;
 	position: relative;
 	width: 200px;
@@ -35,7 +35,7 @@ body {
 	margin: 1em auto;
 }
 
-#lara_archer{
+#tenzile_archer{
 	width: 300px;
 	height: 200px;
 	-vendor-animation-duration: 3s;
@@ -132,6 +132,8 @@ body {
   -webkit-animation: fuego 0.2s 6.5s infinite;
   animation: fuego 0.2s 6.5s infinite;
 }
+
+
 
 /* ============================================== Animation Fire
 */

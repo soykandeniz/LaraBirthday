@@ -1,0 +1,163 @@
+/* Quiz Components - Birthday Quiz Styles */
+
+.quiz-container {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 15px;
+  padding: 20px;
+  width: 80%;
+  max-width: 500px;
+  /* Limit width on desktop */
+  margin: 20px auto;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.quiz-question {
+  font-family: 'Lato', sans-serif;
+  color: #8b6a60;
+  font-size: 1.2em;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.quiz-input {
+  width: 80%;
+  padding: 12px;
+  margin: 10px auto;
+  border: 2px solid #ee9ca7;
+  border-radius: 25px;
+  font-size: 1em;
+  text-align: center;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.quiz-input:focus {
+  border-color: #66cccc;
+  box-shadow: 0 0 8px rgba(102, 204, 204, 0.5);
+}
+
+.quiz-submit {
+  background: #ee9ca7;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 25px;
+  font-size: 1em;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+}
+
+.quiz-submit:hover {
+  background: #66cccc;
+  transform: translateY(-2px);
+}
+
+.quiz-feedback {
+  margin-top: 10px;
+  font-style: italic;
+  min-height: 20px;
+}
+
+.quiz-feedback.correct {
+  color: #00cc99;
+}
+
+.quiz-feedback.incorrect {
+  color: #ff6666;
+}
+
+/* Animation when quiz appears */
+.quiz-container.animated {
+  animation-duration: 0.8s;
+}
+
+.animated {
+  animation-fill-mode: both;
+  animation-duration: 0.8s;
+}
+
+.fadeInUp {
+  animation-name: fadeInUp;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 40px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Large Desktop screens */
+@media (min-width: 1200px) {
+  .quiz-container {
+    width: 40%;
+    padding: 30px;
+  }
+
+  .quiz-question {
+    font-size: 1.4em;
+  }
+
+  .quiz-input {
+    width: 70%;
+  }
+}
+
+/* Medium screens (tablets, smaller desktops) */
+@media (min-width: 769px) and (max-width: 1199px) {
+  .quiz-container {
+    width: 60%;
+    padding: 25px;
+  }
+
+  .quiz-question {
+    font-size: 1.3em;
+  }
+}
+
+/* Small screens/mobile */
+@media (max-width: 768px) {
+  .quiz-container {
+    width: 90%;
+    max-width: none;
+    padding: 15px;
+  }
+
+  .quiz-question {
+    font-size: 1em;
+  }
+
+  .quiz-input {
+    width: 90%;
+    padding: 10px;
+  }
+}
+
+/* Animations for quiz correct/incorrect */
+@keyframes quizShake {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-10px);
+  }
+
+  75% {
+    transform: translateX(10px);
+  }
+}
+
+.quiz-shake {
+  animation: quizShake 0.3s;
+}

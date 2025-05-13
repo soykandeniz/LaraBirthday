@@ -1,84 +1,703 @@
 // I am going to continue to improve this...
-// I attempt to perform candle again but could not overcome the previous version.
-// http://codepen.io/fixcl/pen/nKFDr
+// Birthday page animations and interactions
 
-//上面是原作者的屁话 PS:我修改了蜡烛的top值，还是一点卵用都没有，不同屏幕大小因为top值是百分比，会出现错位
-//如何解决？除非把蜡烛不用CSS动画，和SVG合并，但现在根本没那个技术
-//或者SVG用百分比确定top？或者蜡烛用em确定top？
-//获取windows的高度来确定蜡烛的高度
+// Define these as globals that functions.js can access
+var offsetX;
+var offsetY;
+var heartAnimationInterval;
 
-//初始化fullpage
-$(document).ready(function()
-	{
+// Helper functions to handle animations
+var pageAnimations = {
+	// Initialize browser detection and page setup
+	initialize: function () {
+		// Edge browser detection 
 		var NavigatorName = navigator.userAgent.toLowerCase();
-		//console.log($.browser.version);
-		console.log(NavigatorName);
-		//判断是否是Edge浏览器
-		if (NavigatorName.indexOf('edge') != -1)
-		{
+		if (NavigatorName.indexOf('edge') != -1) {
 			$('#firstsection').empty();
-			$('#firstsection').append('<h1>Lara，真的非常抱歉，但是Edge浏览器不支持生日蛋糕的动画效果，我一时也找不到好的解决方案，请用FireFox查看这个网页，好吗？</h1>');
-			$('#firstsection').append('<p>不信你看</p>');
+			$('#firstsection').append('<h1>I\'m so sorry, but Edge browser doesn\'t support the birthday cake animation. Please view this with Firefox for the best experience!</h1>');
+			$('#firstsection').append('<p>Trust me on this</p>');
 			$('#firstsection').append("<img src='photo/截图.png' />");
-			
 		}
-		
-		//获取windows的高度确定蜡烛的高度，对不同屏幕适配
+
+		// Adjust candle height based on screen size
 		var velas_top = window.screen.height * 0.5 - 130;
-		console.log(velas_top);
-		//修改蜡烛的高度
-		$('.velas').css(
-			{
-				'top': velas_top +'px'
-			}
-		);
-		
-		//先隐藏所有的文字
+		$('.velas').css({
+			'top': velas_top + 'px'
+		});
+		if (window.innerWidth <= 767) {
+			// Mobile positioning - decrease value to move candle higher
+			velas_top = window.innerHeight * 0.28; // Changed from 0.38 to 0.28
+		} else if (window.innerWidth <= 480) {
+			// Extra small screens - decrease value to move candle higher
+			velas_top = window.innerHeight * 0.32; // Changed from 0.42 to 0.32
+		} else {
+			// Desktop positioning
+			velas_top = window.screen.height * 0.5 - 100;
+		}
+		$('.velas').css({
+			'top': velas_top + 'px'
+		});
+
+		// Add the hide class to all texts initially to enable animations
 		$('.text').addClass('hide');
-		$('#fullpage').fullpage(
-			{
-				sectionsColor: ['#ee9ca7', '#66cccc', '#ffcc66', '#00cc99','#ee9ca7', '#66cccc', '#ffcc66'],
-				navigation: true,
-				//增加回调函数，文字动画
-				afterLoad: function(anchorLink, index)
-				{
-					//跳过最后彩蛋
-					if (index == 7)
-					{
-						return;
-					}
-					
-					
-		            var text = $(this).find('.text');
-		            text.removeClass('hide');
-		            $(this).find('.text').addClass('animated fadeInDown');
-		            svgpaint(index);
-		            
-		            if (index == 4)
-		            {
-		            	$(this).find('img').addClass('flipInX')
-		            }
-	       	},
-				//心累，感觉回滚没有有文字动画果然不行，得加上
-				 onLeave: function(index, nextIndex, direction){ 
-				 	
-				 	//跳过最后彩蛋
-					if (index == 7)
-					{
-						return;
-					}
-				 	var text = $(this).find('.text');
-				 	$(this).find('.text').removeClass('animated fadeInDown').addClass('hide');
-				 	
-				 },
+
+		// Hide SVG elements initially to ensure they're properly reset
+		$('#boyfriend, #book, #psp, #tenzile').addClass('hide');
+
+		// Fix for SVG hover issue 
+		$("<style>")
+			.prop("type", "text/css")
+			.html(`
+                #boyfriend, #book, #psp, #tenzile {
+                    pointer-events: none; /* Prevents hover issues */
+                }
+                .section svg {
+                    pointer-events: none;
+                }
+                
+                /* Added: Better CSS control for flame animations */
+                .fuego {
+                    animation-play-state: running !important;
+                }
+                .fuego.paused {
+                    animation: none !important;
+                    opacity: 0 !important;
+                }
+            `)
+			.appendTo("head");
+
+		// Fix SVG painting function for reliable drawing
+		this.setupSvgPainting();
+
+		// Add a marker to track section 1 visits
+		$('#firstsection').attr('data-visited', 'first-time');
+	},
+
+	// Set up enhanced SVG painting to avoid redraw issues
+	setupSvgPainting: function () {
+		// Original implementation
+		var originalSvgPaint = window.svgpaint || function () { };
+
+		window.svgpaint = function (index) {
+			// Section indices are 1-based, svgIndex should be:
+			// Section 3 (boyfriend) -> svgIndex 0
+			// Section 4 (book,psp) -> svgIndex 1
+			// Section 5 (tenzile) -> svgIndex 2
+			if (index < 3 || index > 5) {
+				return; // Only process sections 3-5 that have SVGs
 			}
-			
-		);
-		
-		
+
+			var svgIndex = index - 3;
+
+			// Clean up existing animations before repainting
+			if (svgIndex === 0) {
+				try { $('#boyfriend').lazylinepainter('destroy'); } catch (e) { }
+			} else if (svgIndex === 1) {
+				try { $('#book').lazylinepainter('destroy'); } catch (e) { }
+				try { $('#psp').lazylinepainter('destroy'); } catch (e) { }
+			} else if (svgIndex === 2) {
+				try { $('#tenzile').lazylinepainter('destroy'); } catch (e) { }
+			}
+
+			console.log("SVG painting for section:", index, "svgIndex:", svgIndex);
+
+			// Handle special case for compound selector
+			if (svgIndex === 1) {
+				// Paint book and psp individually
+				$('#book').lazylinepainter({
+					"svgData": pathObj,
+					"strokeWidth": 5,
+					"strokeColor": '#916F6F'
+				}).lazylinepainter('paint');
+
+				$('#psp').lazylinepainter({
+					"svgData": pathObj,
+					"strokeWidth": 5,
+					"strokeColor": '#916F6F'
+				}).lazylinepainter('paint');
+			} else {
+				var selector = svgIndex === 0 ? '#boyfriend' :
+					(svgIndex === 2 ? '#tenzile' : null);
+
+				if (selector) {
+					$(selector).lazylinepainter({
+						"svgData": pathObj,
+						"strokeWidth": 5,
+						"strokeColor": '#916F6F'
+					}).lazylinepainter('paint');
+				}
+			}
+		};
+	},
+
+	// IMPROVED: Reset flame animations with a more robust method
+	resetFlames: function () {
+		console.log("Resetting flame animations with enhanced approach");
+
+		// First completely stop all animations to ensure a clean restart
+		$(".fuego").addClass('paused');
+
+		// Force a thorough browser reflow to ensure CSS changes take effect
+		void document.documentElement.offsetHeight;
+
+		// Stagger the restart of each flame with proper timing
+		setTimeout(function () {
+			$(".fuego").each(function (i) {
+				var fuego = $(this);
+				setTimeout(function () {
+					// Remove the paused class, which restores the animation
+					fuego.removeClass('paused');
+
+					// Explicitly set CSS properties for more reliable animation restart
+					fuego.css({
+						"animation-name": "",
+						"animation-duration": "1.5s",
+						"animation-timing-function": "linear",
+						"animation-iteration-count": "infinite",
+						"animation-play-state": "running",
+						"opacity": "1"
+					});
+				}, i * 150); // Increased delay between flames for better visual effect
+			});
+		}, 100); // Short delay before starting the sequence
+	},
+
+	// Add this function inside the pageAnimations object
+	resetCakeSVG: function () {
+		console.log("Reloading cake SVG animation");
+
+		// Save the original src
+		var originalSrc = $("#cake").attr("src");
+
+		// Create a timestamp parameter to force reload
+		var timestamp = new Date().getTime();
+		var newSrc = originalSrc.split('?')[0] + "?t=" + timestamp;
+
+		// Method 1: Just change the src with a timestamp to force reload
+		$("#cake").attr("src", newSrc);
+
+		// Method 2: Alternative approach - replace the entire embed element
+		/* 
+		var cakeEmbed = $("#cake");
+		var cakeParent = cakeEmbed.parent();
+		var cakeClone = cakeEmbed.clone();
+	    
+		cakeEmbed.remove();
+		cakeClone.attr("src", newSrc);
+		cakeParent.append(cakeClone);
+		*/
+	},
+	// 1. Update the resetCandle function with longer animation delay
+	resetCandle: function () {
+		console.log("Resetting candle animation");
+
+		// First remove the candle
+		var velas = $('.velas');
+		velas.css({
+			"transform": "translateY(-300px)",
+			"animation": "none"
+		});
+
+		// Force reflow
+		void document.documentElement.offsetHeight;
+
+		// Re-add the animation with LONGER delay to appear after cake fully loads
+		setTimeout(function () {
+			velas.css({
+				"animation": "in 500ms 3.5s ease-out forwards" // Increased from 3s to 4s
+			});
+		}, 50);
+	},
+
+	// Start heart animation
+	startHeartAnimation: function () {
+		console.log("Starting heart animation");
+
+		// Clear any existing interval
+		if (heartAnimationInterval) {
+			clearInterval(heartAnimationInterval);
+			heartAnimationInterval = null;
+		}
+
+		// Set global variables
+		offsetX = $("#loveHeart").width() / 2;
+		offsetY = $("#loveHeart").height() / 2 - 55;
+
+		var together = new Date();
+		together.setFullYear(1992, 9, 18);
+		together.setHours(10);
+		together.setMinutes(0);
+		together.setSeconds(0);
+		together.setMilliseconds(0);
+
+		// Reset garden to fresh state
+		if (typeof garden !== 'undefined') {
+			garden.clear();
+		}
+
+		if (typeof garden === 'undefined' || garden === null) {
+			garden = new Garden(document.getElementById('garden'), { width: 670, height: 625 });
+		}
+
+		$("#garden").css({
+			"position": "relative",
+			"z-index": "10"
+		});
+
+		if (typeof startHeartAnimation === 'function') {
+			startHeartAnimation();
+			timeElapse(together);
+			heartAnimationInterval = setInterval(function () {
+				timeElapse(together);
+			}, 500);
+			return true;
+		} else {
+			console.error("startHeartAnimation function is missing!");
+			return false;
+		}
+	},
+
+	// Stop heart animation
+	stopHeartAnimation: function () {
+		if (heartAnimationInterval) {
+			clearInterval(heartAnimationInterval);
+			heartAnimationInterval = null;
+		}
+	},
+
+	// Initialize fullPage.js - this is where errors keep occurring
+	initFullPage: function () {
+		// Check for proper fullpage.js plugin initialization
+		if (typeof $.fn.fullpage !== 'function') {
+			console.error("fullpage.js plugin not found or not properly loaded!");
+			return false;
+		}
+
+		// Initialize fullPage with callbacks
+		$('#fullpage').fullpage({
+			sectionsColor: ['#ee9ca7', '#66cccc', '#ffcc66', '#00cc99', '#ee9ca7', '#66cccc', '#ffcc66'],
+			navigation: true,
+			scrollingSpeed: 700,
+			autoScrolling: true,
+			scrollBar: false,
+			css3: true,
+			// Disable keyboard scrolling to prevent skipping quizzes
+			keyboardScrolling: false,
+			// Only allow programmatic scrolling (from quiz answers)
+			scrollOverflow: false,
+
+			// This runs BEFORE the section change - prepare the next section's animations
+			onLeave: function (index, nextIndex, direction) {
+				console.log("Leaving section", index, "going to", nextIndex, "direction:", direction);
+
+				// Skip easter egg section
+				if (index === 8 || nextIndex === 8) {
+					return true;
+				}
+
+				// Update timing in afterLoad function
+				if (index === 1) {
+					if ($('#firstsection').attr('data-visited') === 'needs-reset') {
+						// Reset to normal state
+						$('#firstsection').attr('data-visited', 'visited');
+
+						// Complete animation resets AFTER scroll completes
+						// In the afterLoad function timing
+						setTimeout(function () {
+							// 1. First reset cake
+							pageAnimations.resetCakeSVG();
+
+							// 2. Then candle with slightly shorter delay (0.5s earlier)
+							setTimeout(function () {
+								pageAnimations.resetCandle();
+
+								// 3. Keep the timing relationship the same for flames
+								setTimeout(function () {
+									pageAnimations.resetFlames();
+
+									// 4. Keep text timing the same relative to flames
+									setTimeout(function () {
+										$("#firstsection .text").removeClass('hide').addClass('animated fadeInDown');
+									}, 1500);
+								}, 800);
+							}, 1500); // Reduced from 2000ms to 1500ms (0.5s earlier)
+						}, 100);
+					}
+					else if ($('#firstsection').attr('data-visited') === 'first-time') {
+						// First time visiting section 1, just mark as visited
+						$('#firstsection').attr('data-visited', 'visited');
+					}
+				}
+
+				// FIRST: Clean up existing animations from current section
+				if (index === 2) {
+					// Clear heart animation
+					pageAnimations.stopHeartAnimation();
+					$("#words").removeClass('animated fadeIn').addClass('hide');
+				}
+				else if (index === 3) {
+					$("#boyfriend").removeClass('animated fadeInUp').addClass('hide');
+				}
+				else if (index === 4) {
+					$("#book, #psp").removeClass('animated fadeInUp').addClass('hide');
+					$(".section").eq(3).find('img').removeClass('flipInX');
+				}
+				else if (index === 5) {
+					$("#tenzile").removeClass('animated fadeInUp').addClass('hide');
+				}
+				else if (index === 6) {
+					$("#tenzile_archer").removeClass('animated flipInX').addClass('hide');
+				}
+				else if (index === 7) {
+					$("#song").removeClass('animated fadeInUp').addClass('hide');
+					var audioElement = document.getElementById('song');
+					if (audioElement) audioElement.pause();
+				}
+
+				// SECOND: Pre-load the NEXT section's SVG elements
+				if (nextIndex >= 3 && nextIndex <= 5) {
+					// First make the SVG elements visible 
+					if (nextIndex === 3) {
+						$("#boyfriend").removeClass('hide');
+					}
+					else if (nextIndex === 4) {
+						$("#book, #psp").removeClass('hide');
+					}
+					else if (nextIndex === 5) {
+						$("#tenzile").removeClass('hide');
+					}
+
+					// Start SVG painting with a short delay
+					setTimeout(function () {
+						if (typeof svgpaint === 'function') {
+							svgpaint(nextIndex);
+						}
+					}, 50);
+				}
+
+				// THIRD: Show text for next section
+				$(".section").eq(nextIndex - 1).find(".text").removeClass('hide').addClass('animated fadeInDown');
+
+				// FOURTH: Setup special animations
+				// In the onLeave function, update section 1 handling:
+				// 3. Fix onLeave when navigating TO section 1 - ensure we set needs-reset flag
+				if (nextIndex === 1) {
+					// Mark section as needing reset when returning to it
+					$('#firstsection').attr('data-visited', 'needs-reset');
+
+					// Reset animations when going to section 1
+					// Prepare flames for reset
+					$(".fuego").addClass('paused');
+
+					// Prepare candle for reset
+					$('.velas').css({
+						"transform": "translateY(-300px)",
+						"animation": "none"
+					});
+
+					// Prepare for cake reset
+					pageAnimations.resetCakeSVG();
+				}
+				else if (nextIndex === 2) {
+					// Start heart animation
+					setTimeout(function () {
+						pageAnimations.startHeartAnimation();
+						$("#words").removeClass('hide').addClass('animated fadeIn');
+					}, 50);
+				}
+
+				return true; // Allow the scroll
+			},
+
+			// This runs AFTER the section has loaded
+			afterLoad: function (anchorLink, index) {
+				console.log("fullPage afterLoad callback - index:", index);
+
+				// Skip easter egg section
+				if (index === 8) {
+					return;
+				}
+
+				if (index === 1) {
+					if ($('#firstsection').attr('data-visited') === 'needs-reset') {
+						// Reset to normal state
+						$('#firstsection').attr('data-visited', 'visited');
+
+						// Complete animation resets AFTER scroll completes
+						setTimeout(function () {
+							// 1. First reset cake
+							pageAnimations.resetCakeSVG();
+
+							// 2. Then candle with LONGER delay
+							setTimeout(function () {
+								pageAnimations.resetCandle();
+
+								// 3. Then flames after candle with same timing relationship
+								setTimeout(function () {
+									pageAnimations.resetFlames();
+
+									// 4. Finally text after a reasonable delay
+									setTimeout(function () {
+										$("#firstsection .text").removeClass('hide').addClass('animated fadeInDown');
+									}, 1500);
+								}, 800); // Keep this timing the same
+							}, 2000); // Increased from 1000ms to 2000ms
+						}, 100);
+					}
+					else if ($('#firstsection').attr('data-visited') === 'first-time') {
+						// First time visiting section 1, just mark as visited
+						$('#firstsection').attr('data-visited', 'visited');
+					}
+				}
+
+				// Skip sections already handled in onLeave
+				if (index === 2) {
+					return;
+				}
+
+				// Add entrance animations
+				if (index === 3) {
+					$("#boyfriend").addClass('animated fadeInUp');
+				}
+				else if (index === 4) {
+					$("#book, #psp").addClass('animated fadeInUp');
+					$(".section").eq(3).find('img').addClass('flipInX');
+				}
+				else if (index === 5) {
+					$("#tenzile").addClass('animated fadeInUp');
+				}
+				else if (index === 6) {
+					$("#tenzile_archer").removeClass('hide').addClass('animated flipInX');
+				}
+				else if (index === 7) {
+					$("#song").removeClass('hide').addClass('animated fadeInUp');
+				}
+			}
+		});
+
+		return true;
+	}
+};
+
+function resizeHeartCanvas() {
+	if (typeof garden !== 'undefined' && garden !== null) {
+		var loveHeart = $('#loveHeart');
+		var gardenCanvas = $('#garden');
+		var mainDiv = $('#mainDiv');
+		var words = $('#words');
+		var content = $('#content');
+
+		// Force full viewport height for main container
+		mainDiv.css({
+			'height': '100vh',
+			'overflow': 'hidden',
+			'display': 'flex',
+			'align-items': 'center',
+			'justify-content': 'center',
+			'width': '100%'
+		});
+
+		// Get device dimensions
+		var deviceWidth = window.innerWidth;
+		var deviceHeight = window.innerHeight;
+
+		// Calculate scale based on device size
+		var scale;
+		if (deviceWidth <= 390 || deviceHeight <= 600) {
+			scale = 0.4;
+		} else if (deviceWidth <= 480 || deviceHeight <= 750) {
+			scale = 0.45;
+		} else if (deviceWidth <= 767) {
+			scale = 0.65;
+		} else if (deviceWidth <= 1024) {
+			scale = 0.9;
+		} else {
+			scale = 1.0;
+		}
+
+		// Special case for the problematic 412x915 size
+		if (deviceWidth <= 412 && deviceHeight <= 915 && deviceHeight > 800) {
+			scale = 0.35; // More aggressive scaling for this specific device
+		}
+
+		// Set explicit dimensions for the heart container before scaling
+		loveHeart.css({
+			'width': '670px',
+			'height': '625px',
+			'transform': 'scale(' + scale + ')',
+			'transform-origin': 'center center',
+			'margin': '0 auto'
+		});
+
+		// Set canvas dimensions to match original heart size
+		gardenCanvas.attr('width', 670);
+		gardenCanvas.attr('height', 625);
+
+		// Update offsets for heart positioning - IMPORTANT!
+		offsetX = 670 / 2;
+		offsetY = 625 / 2 - 50; // Adjust vertical position to raise the heart
+
+		// Position text properly
+		words.css({
+			'position': 'absolute',
+			'top': '0',
+			'left': '5%',
+			'width': '90%',
+			'z-index': 20
+		});
+
+		// Adjust text size for smaller screens
+		if (deviceWidth <= 480 || deviceHeight <= 750) {
+			$('#messages').css({
+				'font-size': '0.75em',
+				'margin-bottom': '0.1em'
+			});
+
+			$('#loveu').css({
+				'font-size': '0.6em',
+				'padding': '0.2em',
+				'line-height': '1.2'
+			});
+		}
+
+		// Restart heart animation
+		if (typeof startHeartAnimation === 'function') {
+			startHeartAnimation();
+		}
+	}
+}
+// Make sure to call this on load and resize
+$(window).on('load resize orientationchange', function () {
+	resizeHeartCanvas();
+});
+
+// Use jQuery's document ready for initialization
+jQuery(document).ready(function ($) {
+	// Initialize the page first
+	pageAnimations.initialize();
+	setTimeout(resizeHeartCanvas, 500);
+
+	// Then initialize fullPage.js
+	if (pageAnimations.initFullPage()) {
+		console.log("fullPage.js successfully initialized");
+	} else {
+		console.error("Failed to initialize fullPage.js");
+	}
+
+	// Initialize animations on page load
+	$(window).on('load', function () {
+		setTimeout(function () {
+			var currentSection = $('.section.active').index() + 1;
+			if (currentSection >= 3 && currentSection <= 5) {
+				// Make sure SVG elements are visible
+				if (currentSection === 3) {
+					$("#boyfriend").removeClass('hide');
+				}
+				else if (currentSection === 4) {
+					$("#book, #psp").removeClass('hide');
+				}
+				else if (currentSection === 5) {
+					$("#tenzile").removeClass('hide');
+				}
+
+				if (typeof svgpaint === 'function') {
+					svgpaint(currentSection);
+				}
+			}
+
+			// Initialize heart animation if on section 2
+			if (currentSection === 2) {
+				pageAnimations.startHeartAnimation();
+				$("#words").removeClass('hide').addClass('animated fadeIn');
+			}
+
+			// Update the timing sequence in the window.load handler
+			if (currentSection === 1) {
+				// First load the cake - needs to appear first
+				pageAnimations.resetCakeSVG();
+
+				// Sequence of animations with improved timing:
+				setTimeout(function () {
+					// Start candle animation EARLIER (0.5s earlier)
+					pageAnimations.resetCandle();
+
+					// Keep the same timing relationship between candle and flames
+					setTimeout(function () {
+						pageAnimations.resetFlames();
+					}, 800);
+
+					// Adjust text timing to maintain proper sequence
+					$("#firstsection .text").addClass('hide');
+					setTimeout(function () {
+						$("#firstsection .text").removeClass('hide').addClass('animated fadeInDown');
+					}, 3500); // Reduced from 4000ms to 3500ms
+				}, 1500); // Reduced from 2000ms to 1500ms (0.5s earlier)
+			}
+		}, 200);
 	});
-	
-	
-	
+});
 
+// Quiz functionality
+$(document).ready(function () {
+	// Initialize quiz functionality
+	initQuiz();
 
+	// Function to handle quizzes
+	function initQuiz() {
+		$('.quiz-submit').on('click', function () {
+			const quizContainer = $(this).closest('.quiz-container');
+			const input = quizContainer.find('.quiz-input');
+			const feedback = quizContainer.find('.quiz-feedback');
+			const userAnswer = input.val().trim().toLowerCase();
+			const correctAnswer = input.data('answer').toLowerCase();
+			const altAnswers = input.data('alt-answers') ?
+				input.data('alt-answers').toLowerCase().split(',') : [];
+
+			// Check if answer is correct (including alternate answers)
+			const isCorrect = userAnswer === correctAnswer ||
+				altAnswers.some(alt => userAnswer === alt.trim());
+
+			if (isCorrect) {
+				feedback.text('Correct! Moving to next section...').removeClass('incorrect').addClass('correct');
+
+				// Disable input and button after correct answer
+				input.prop('disabled', true);
+				$(this).prop('disabled', true);
+
+				// Move to next section after a short delay
+				setTimeout(function () {
+					$.fn.fullpage.moveSectionDown();
+				}, 1500);
+			} else {
+				feedback.text('Try again!').removeClass('correct').addClass('incorrect');
+
+				// Shake effect on incorrect answer
+				quizContainer.css('transform', 'translateX(10px)');
+				setTimeout(function () {
+					quizContainer.css('transform', 'translateX(-10px)');
+					setTimeout(function () {
+						quizContainer.css('transform', 'translateX(0)');
+					}, 100);
+				}, 100);
+			}
+		});
+
+		// Allow Enter key to submit
+		$('.quiz-input').on('keypress', function (e) {
+			if (e.which === 13) { // Enter key
+				$(this).closest('.quiz-container').find('.quiz-submit').click();
+			}
+		});
+
+		// Initially hide quiz containers and show them with animation
+		$('.quiz-container').addClass('hide');
+
+		// Show quiz container when section becomes active
+		// $(document).on('afterLoad', function(anchorLink, index) {
+		//     $('.section').eq(index-1).find('.quiz-container')
+		//                .removeClass('hide')
+		//                .addClass('animated fadeInUp');
+		// });
+
+	}
+});

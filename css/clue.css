@@ -1,0 +1,245 @@
+/* Clue Component Styles */
+.clue-card {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+  border-radius: 15px;
+  padding: 20px;
+  width: 80%;
+  max-width: 500px;
+  margin: 0 auto 20px auto;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(238, 156, 167, 0.3);
+}
+
+.clue-card::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: linear-gradient(45deg, #ee9ca780, #66cccc80, #ffcc6680);
+  z-index: -1;
+  filter: blur(15px);
+  opacity: 0.6;
+}
+
+.clue-title {
+  font-family: 'Lato', sans-serif;
+  color: #8b6a60;
+  font-size: 1.1em;
+  margin-bottom: 10px;
+  font-weight: bold;
+  position: relative;
+  display: inline-block;
+}
+
+.clue-title::after {
+  content: "";
+  position: absolute;
+  height: 2px;
+  bottom: -5px;
+  left: 10%;
+  right: 10%;
+  background: linear-gradient(to right, transparent, #ee9ca7, transparent);
+}
+
+.clue-content {
+  font-family: 'Lato', sans-serif;
+  color: #8b6a60;
+  font-size: 0.95em;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.clue-hint {
+  font-style: italic;
+  color: #66cccc;
+  font-size: 0.9em;
+  margin-top: 10px;
+}
+
+.location-map {
+  width: 100%;
+  max-width: 250px;
+  height: 120px;
+  border-radius: 8px;
+  margin: 10px auto;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  border: 2px solid white;
+}
+
+/* Add this to your existing clue.css file */
+
+.reveal-question-btn {
+  background: linear-gradient(to right, #ee9ca7, #ffdde1);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 20px;
+  margin-top: 15px;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.95em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.reveal-question-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(to right, #66cccc, #99e5e5);
+}
+
+.reveal-question-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.reveal-question-btn::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+}
+
+.reveal-question-btn:hover::after {
+  animation: ripple 1s ease-out;
+}
+
+/* Media container for map and photo */
+.location-media {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin: 15px 0;
+  justify-content: center;
+  width: 100%;
+}
+
+.location-map,
+.location-photo {
+  flex: 1;
+  min-width: 200px;
+  height: 200px;
+  /* Increased height */
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  border: 3px solid white;
+  object-fit: cover;
+}
+
+.location-photo {
+  transition: transform 0.3s ease;
+}
+
+.location-photo:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .location-media {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .location-map,
+  .location-photo {
+    width: 100%;
+    max-width: none;
+    margin-bottom: 10px;
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: scale(20, 20);
+    opacity: 0;
+  }
+}
+
+@media (min-width: 1200px) {
+  .clue-card {
+    width: 70%;
+    /* Increased from 40% to 70% for better desktop display */
+    max-width: 900px;
+    /* Added max-width to prevent excessive stretching */
+    padding: 30px;
+  }
+
+  .reveal-question-btn {
+    padding: 12px 30px;
+    font-size: 1.1em;
+  }
+
+  .quiz-container {
+    width: 70%;
+    /* Match clue card width */
+    max-width: 900px;
+    padding: 30px;
+  }
+
+  .location-media {
+    max-width: 800px;
+    margin: 20px auto;
+  }
+
+  .location-map,
+  .location-photo {
+    height: 300px;
+    /* Much larger on desktop */
+    min-width: 300px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1199px) {
+
+  .clue-card,
+  .quiz-container {
+    width: 80%;
+    max-width: 700px;
+  }
+
+  .location-map,
+  .location-photo {
+    height: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .reveal-question-btn {
+    padding: 8px 15px;
+    font-size: 0.9em;
+  }
+
+  .clue-card {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .clue-title {
+    font-size: 1em;
+  }
+
+  .location-map {
+    max-width: 200px;
+    height: 100px;
+  }
+}
