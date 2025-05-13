@@ -322,3 +322,86 @@ body {
   font-size: 1.4em;
   margin-bottom: 10px;
 }
+
+/* Music player styling */
+.music-player {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.music-btn {
+  background: linear-gradient(to right, #d45d79, #f8a5c2);
+  border: none;
+  border-radius: 30px;
+  color: white;
+  padding: 8px 15px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(212, 93, 121, 0.3);
+  transition: all 0.3s ease;
+  font-family: 'Lato', sans-serif;
+}
+
+.music-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(212, 93, 121, 0.4);
+}
+
+.music-icon {
+  font-size: 18px;
+  margin-right: 8px;
+  animation: pulse 1.5s infinite;
+}
+
+.music-btn.playing .music-icon {
+  animation: spin 3s infinite linear;
+}
+
+.music-btn.playing {
+  background: linear-gradient(to right, #66cccc, #00cc99);
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .music-text {
+    display: none;
+  }
+
+  .music-btn {
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 0;
+  }
+
+  .music-icon {
+    margin-right: 0;
+  }
+}

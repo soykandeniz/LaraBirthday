@@ -30,11 +30,11 @@ var pageAnimations = {
 			'top': velas_top + 'px'
 		});
 		if (window.innerWidth <= 767) {
-			// Mobile positioning - decrease value to move candle higher
-			velas_top = window.innerHeight * 0.28; // Changed from 0.38 to 0.28
+			// Mobile positioning - INCREASE value to move candle LOWER
+			velas_top = window.innerHeight * 0.38; // Changed from 0.28 to 0.38
 		} else if (window.innerWidth <= 480) {
-			// Extra small screens - decrease value to move candle higher
-			velas_top = window.innerHeight * 0.32; // Changed from 0.42 to 0.32
+			// Extra small screens - INCREASE value to move candle LOWER
+			velas_top = window.innerHeight * 0.42; // Changed from 0.32 to 0.42
 		} else {
 			// Desktop positioning
 			velas_top = window.screen.height * 0.5 - 100;
@@ -446,6 +446,15 @@ var pageAnimations = {
 			onLeave: function (index, nextIndex, direction) {
 				console.log("Leaving section", index, "going to", nextIndex, "direction:", direction);
 
+				if (index === 3 && nextIndex > 3 && direction === 'down') {
+					// Only allow if triggered by quiz (not by manual scrolling)
+					if (!window.quizTriggeredScroll) {
+						return false; // Prevent the scroll
+					}
+					// Reset the flag after using it
+					window.quizTriggeredScroll = false;
+				}
+
 				// Skip easter egg section
 				if (index === 8 || nextIndex === 8) {
 					return true;
@@ -830,6 +839,27 @@ jQuery(document).ready(function ($) {
 
 // Quiz functionality
 $(document).ready(function () {
+	const musicBtn = $('#music-toggle');
+	const musicIcon = $('.music-icon');
+	const musicText = $('.music-text');
+	const audio = $('#background-music')[0];
+
+	musicBtn.on('click', function () {
+		if (audio.paused) {
+			audio.play();
+			musicBtn.addClass('playing');
+			musicText.text('Pause Music');
+		} else {
+			audio.pause();
+			musicBtn.removeClass('playing');
+			musicText.text('Play Music');
+		}
+	});
+
+	// Stop music when navigating away from page
+	$(window).on('beforeunload', function () {
+		audio.pause();
+	});
 	// Initialize quiz functionality
 	initQuiz();
 

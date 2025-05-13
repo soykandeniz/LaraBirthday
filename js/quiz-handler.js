@@ -43,18 +43,21 @@ $(document).ready(function () {
 
         // Check if the date matches
         var isCorrect = userAnswer === correctAnswer;
-
         if (isCorrect) {
             feedback.text('Correct! Moving to next section...').removeClass('incorrect').addClass('correct');
 
-            // Disable input and button
+            // Disable input and button after correct answer
             input.prop('disabled', true);
-            submit.prop('disabled', true);
+            $(this).prop('disabled', true);
 
-            // Move to next section after delay
+            // Set flag to allow scrolling
+            window.quizTriggeredScroll = true;
+
+            // Move to next section after a short delay
             setTimeout(function () {
                 $.fn.fullpage.moveSectionDown();
             }, 1500);
+
         } else {
             feedback.text('Try again!').removeClass('correct').addClass('incorrect');
 
