@@ -3,12 +3,11 @@ $(document).ready(function () {
 
     // Define clue locations with their coordinates
     const clueLocations = {
-        'Stanford Library': { lat: 37.427575, lng: -122.168808 },
-        'Muir Woods': { lat: 37.8912, lng: -122.5957 },
-        'Half Moon Bay': { lat: 37.4636, lng: -122.4286 },
-        'Fillmore Street': { lat: 37.7857, lng: -122.4337 },
-        'Sausalito': { lat: 37.8591, lng: -122.4853 },
-        'Golden Gate Bridge': { lat: 37.8199, lng: -122.4783 }
+        'Home': { lat: 37.6658678571724, lng: -122.06756530278956 },
+        'Walnut Creek': { lat: 37.89491039452726, lng: -122.06030480026239 },
+        'Tiburon': { lat: 37.87315591270606, lng: -122.45700992864545 },
+        'Muir Woods': { lat: 37.89716372655689, lng: -122.58036669974331 },
+        'San Francisco': { lat: 37.78572650040276, lng: -122.41089463068961 }
     };
 
     // Disable all buttons initially
@@ -77,7 +76,7 @@ $(document).ready(function () {
 
                         // If we found a matching location
                         if (closestLocation) {
-                            if (shortestDistance <= 3) {
+                            if (shortestDistance <= 10) {
                                 // User is within range!
                                 $btn.prop('disabled', false);
                                 $status.text(`You're at ${closestLocation}! (${shortestDistance.toFixed(1)} miles away)`).css('color', '#00cc99');

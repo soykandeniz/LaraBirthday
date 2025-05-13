@@ -22,7 +22,6 @@ var pageAnimations = {
 			$('#firstsection').empty();
 			$('#firstsection').append('<h1>I\'m so sorry, but Edge browser doesn\'t support the birthday cake animation. Please view this with Firefox for the best experience!</h1>');
 			$('#firstsection').append('<p>Trust me on this</p>');
-			$('#firstsection').append("<img src='photo/截图.png' />");
 		}
 
 		// Adjust candle height based on screen size
@@ -77,6 +76,8 @@ var pageAnimations = {
 
 		// Add a marker to track section 1 visits
 		$('#firstsection').attr('data-visited', 'first-time');
+		// Add a marker for section 2 as well
+		$('#secondsection').attr('data-visited', 'first-time');
 	},
 
 	// Set up enhanced SVG painting to avoid redraw issues
@@ -94,7 +95,8 @@ var pageAnimations = {
 			var currentSection = $('.section').eq(index - 1);
 
 			// For sections 6-8 that don't have SVG animations, display clue card after delay
-			if (index >= 6 && index <= 8) {
+
+			if (index >= 6 && index <= 7) {
 				console.log("Processing non-SVG section:", index);
 
 				// Ensure text is visible
@@ -263,6 +265,106 @@ var pageAnimations = {
 		}, 50);
 	},
 
+	initPhotoSlider: function () {
+		console.log("Initializing photo slider");
+
+		// Sample photos - replace with your actual photos later
+		const photos = [
+			{ src: 'img/1.jpeg', caption: 'Every moment with you is a gift' },
+			{ src: 'img/3.jpeg', caption: 'My heart belongs to you, always' },
+			{ src: 'img/4.jpeg', caption: 'You make every day special' },
+			{ src: 'img/5.jpeg', caption: 'Forever isnt long enough with you' },
+			{ src: 'img/6.jpeg', caption: 'You are the light of my life' },
+			{ src: 'img/7.jpeg', caption: 'Home is wherever I am with you' },
+			{ src: 'img/8.jpeg', caption: 'You are all I ever wanted' },
+			{ src: 'img/9.jpeg', caption: 'To many more years of us' },
+			{ src: 'img/10.jpeg', caption: 'I fall in love with you every day' },
+			{ src: 'img/11.jpeg', caption: 'You are my sunshine on rainy days' },
+			{ src: 'img/12.jpeg', caption: 'Life is most beautiful melody is you' },
+			{ src: 'img/13.jpeg', caption: 'Every love story is beautiful, but ours is my favorite' },
+			{ src: 'img/14.jpeg', caption: 'You make my heart smile' },
+			{ src: 'img/15.jpeg', caption: 'Loving you is the easiest thing I have ever done' },
+			{ src: 'img/16.jpeg', caption: 'You are the reason I believe in love' },
+		];
+
+		// Create slider HTML
+		const sliderWrapper = $('.slider-wrapper');
+		const dotsContainer = $('.slider-dots');
+
+		// Clear existing content
+		sliderWrapper.empty();
+		dotsContainer.empty();
+
+		// Update this part of your initPhotoSlider function
+		photos.forEach((photo, index) => {
+			sliderWrapper.append(`
+        <div class="slider-item">
+            <img src="${photo.src}" alt="${photo.caption}" class="slider-image">
+            <div class="slider-caption">${photo.caption}</div>
+        </div>
+    `);
+
+			dotsContainer.append(`<div class="slider-dot ${index === 0 ? 'active' : ''}" data-index="${index}"></div>`);
+		});
+
+		// Set initial state
+		let currentSlide = 0;
+		const totalSlides = photos.length;
+		let autoSlideInterval;
+
+		// Function to show a specific slide
+		function showSlide(index) {
+			// Handle wrapping
+			if (index < 0) index = totalSlides - 1;
+			if (index >= totalSlides) index = 0;
+
+			currentSlide = index;
+			sliderWrapper.css('transform', `translateX(-${currentSlide * 100}%)`);
+
+			// Update dots
+			$('.slider-dot').removeClass('active');
+			$(`.slider-dot[data-index="${currentSlide}"]`).addClass('active');
+		}
+
+		// Navigation event handlers
+		$('.slider-next').on('click', function () {
+			showSlide(currentSlide + 1);
+			resetAutoSlide();
+		});
+
+		$('.slider-prev').on('click', function () {
+			showSlide(currentSlide - 1);
+			resetAutoSlide();
+		});
+
+		// Dot navigation
+		$('.slider-dot').on('click', function () {
+			const index = $(this).data('index');
+			showSlide(index);
+			resetAutoSlide();
+		});
+
+		// Auto-slide functionality
+		function startAutoSlide() {
+			autoSlideInterval = setInterval(function () {
+				showSlide(currentSlide + 1);
+			}, 4000); // Change slide every 4 seconds
+		}
+
+		function resetAutoSlide() {
+			clearInterval(autoSlideInterval);
+			startAutoSlide();
+		}
+
+		// Start the auto-slide
+		startAutoSlide();
+
+		// Show the slider with animation
+		setTimeout(function () {
+			$('.photo-slider').removeClass('hide').addClass('animated fadeIn');
+		}, 1500);
+	},
+
 	// Start heart animation
 	startHeartAnimation: function () {
 		console.log("Starting heart animation");
@@ -329,7 +431,7 @@ var pageAnimations = {
 
 		// Initialize fullPage with callbacks
 		$('#fullpage').fullpage({
-			sectionsColor: ['#ee9ca7', '#66cccc', '#ffcc66', '#00cc99', '#ee9ca7', '#66cccc', '#ffcc66'],
+			sectionsColor: ['#ee9ca7', '#ffcc66', '#ffcc66', '#00cc99', '#ee9ca7', '#66cccc', '#ffcc66', '#000000'],
 			navigation: true,
 			scrollingSpeed: 700,
 			autoScrolling: true,
@@ -348,6 +450,13 @@ var pageAnimations = {
 				if (index === 8 || nextIndex === 8) {
 					return true;
 				}
+				if (index === 2) {
+					$('#secondsection').attr('data-visited', 'needs-reset');
+					// Hide slider and text to prepare for re-entry
+					$('.photo-slider').addClass('hide').removeClass('animated fadeIn');
+					$("#secondsection .text").addClass('hide').removeClass('animated fadeInDown');
+				}
+
 
 				// Update timing in afterLoad function
 				if (index === 1) {
@@ -382,13 +491,6 @@ var pageAnimations = {
 						$('#firstsection').attr('data-visited', 'visited');
 					}
 				}
-
-				// FIRST: Clean up existing animations from current section
-				if (index === 2) {
-					// Clear heart animation
-					pageAnimations.stopHeartAnimation();
-					$("#words").removeClass('animated fadeIn').addClass('hide');
-				}
 				else if (index === 3) {
 					$("#boyfriend").removeClass('animated fadeInUp').addClass('hide');
 				}
@@ -421,7 +523,7 @@ var pageAnimations = {
 				}
 
 				// In your onLeave function where you prepare the next section
-				if (nextIndex >= 3 && nextIndex <= 8) {
+				if (nextIndex >= 3 && nextIndex <= 7) {
 					// First make the SVG elements visible 
 					if (nextIndex === 3) {
 						$("#boyfriend").removeClass('hide');
@@ -465,10 +567,11 @@ var pageAnimations = {
 					pageAnimations.resetCakeSVG();
 				}
 				else if (nextIndex === 2) {
-					// Start heart animation
+					// Set up easter egg section when entering
 					setTimeout(function () {
-						pageAnimations.startHeartAnimation();
-						$("#words").removeClass('hide').addClass('animated fadeIn');
+						if (typeof svgpaint === 'function') {
+							svgpaint(nextIndex);
+						}
 					}, 50);
 				}
 
@@ -479,8 +582,9 @@ var pageAnimations = {
 			afterLoad: function (anchorLink, index) {
 				console.log("fullPage afterLoad callback - index:", index);
 
-				// Skip easter egg section
 				if (index === 8) {
+					pageAnimations.startHeartAnimation();
+					$("#words").removeClass('hide').addClass('animated fadeIn');
 					return;
 				}
 
@@ -516,8 +620,25 @@ var pageAnimations = {
 					}
 				}
 
-				// Skip sections already handled in onLeave
 				if (index === 2) {
+					var isFirstTime = $('#secondsection').attr('data-visited') === 'first-time';
+					var needsReset = $('#secondsection').attr('data-visited') === 'needs-reset';
+
+					// Update the visited state
+					if (isFirstTime) {
+						$('#secondsection').attr('data-visited', 'visited');
+					} else if (needsReset) {
+						$('#secondsection').attr('data-visited', 'visited');
+					}
+
+					// First show the text
+					$("#secondsection .text").removeClass('hide').addClass('animated fadeInDown');
+
+					// Initialize and show the slider with a delay
+					setTimeout(function () {
+						pageAnimations.initPhotoSlider();
+					}, 1000);
+
 					return;
 				}
 
@@ -657,6 +778,7 @@ jQuery(document).ready(function ($) {
 	$(window).on('load', function () {
 		setTimeout(function () {
 			var currentSection = $('.section.active').index() + 1;
+
 			if (currentSection >= 3 && currentSection <= 5) {
 				// Make sure SVG elements are visible
 				if (currentSection === 3) {
@@ -674,8 +796,8 @@ jQuery(document).ready(function ($) {
 				}
 			}
 
-			// Initialize heart animation if on section 2
-			if (currentSection === 2) {
+			// Initialize heart animation if on section 8
+			if (currentSection === 8) {
 				pageAnimations.startHeartAnimation();
 				$("#words").removeClass('hide').addClass('animated fadeIn');
 			}

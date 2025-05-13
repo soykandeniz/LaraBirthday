@@ -154,6 +154,61 @@
   font-style: italic;
 }
 
+/* Enhanced date-picker styling */
+.date-picker {
+  font-size: 16px !important;
+  padding: 12px 18px !important;
+  border-radius: 25px !important;
+  text-align: center !important;
+  width: auto !important;
+  min-width: 220px !important;
+  margin: 15px auto !important;
+  display: block !important;
+  border: 2px solid #ee9ca7 !important;
+  color: #8b6a60 !important;
+  font-family: 'Lato', sans-serif !important;
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  box-shadow: 0 3px 8px rgba(212, 93, 121, 0.15) !important;
+  transition: all 0.3s ease !important;
+  cursor: pointer !important;
+}
+
+.date-picker:hover {
+  border-color: #d45d79 !important;
+  box-shadow: 0 5px 12px rgba(212, 93, 121, 0.25) !important;
+  transform: translateY(-2px) !important;
+}
+
+.date-picker:focus {
+  outline: none !important;
+  border-color: #d45d79 !important;
+  box-shadow: 0 0 0 3px rgba(212, 93, 121, 0.3) !important;
+  background-color: #fff !important;
+}
+
+/* Styling for calendar popup (limited browser support) */
+.date-picker::-webkit-calendar-picker-indicator {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" viewBox="0 0 24 24"><path fill="%23d45d79" d="M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H4V8h16v13z"/></svg>');
+  cursor: pointer;
+  opacity: 0.8;
+  padding: 4px;
+}
+
+.date-picker::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* Disabled state */
+.date-picker:disabled {
+  opacity: 0.7;
+  border-color: #ccc !important;
+  background-color: #f9f9f9 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
 /* FIX 3: Desktop appearance improvements */
 @media (min-width: 992px) {
   .clue-card {

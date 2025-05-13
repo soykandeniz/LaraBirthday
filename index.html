@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="css/default.css" type="text/css">
   <link rel="stylesheet" href="css/quiz.css" type="text/css">
   <link rel="stylesheet" href="css/clue.css" type="text/css">
+  <link rel="stylesheet" href="css/slider.css" type="text/css">
   
   <!-- New Component Styles -->
   <link rel="stylesheet" href="css/heart-animation.css" type="text/css">
@@ -45,24 +46,199 @@
         </div>
     </div>
 
-<!-- Heart Animation Section -->
+  <div id="secondsection" class="section">
+    <div class="text hide">
+        <h1>Our Special Memories</h1>
+        <p>Ready for adding some more?</p>
+    </div>
+    
+    <div class="photo-slider hide">
+        <div class="slider-container">
+            <div class="slider-wrapper">
+                <!-- Photos will be added here via JavaScript -->
+            </div>
+            <div class="slider-nav">
+                <button class="slider-arrow slider-prev">&lt;</button>
+                <button class="slider-arrow slider-next">&gt;</button>
+            </div>
+            <div class="slider-dots"></div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Home Section -->
+<div class="section">
+    <!-- Clue component for the Home section -->
+    <div class="clue-card">
+        <div class="clue-title">Our New Home</div>
+        <div class="clue-content">
+            Just one month in our new home, and it already feels like where we belong. This place will hold so many memories we've yet to create - first holidays, lazy Sunday mornings, and perhaps the sounds of little footsteps someday. May this house be blessed with laughter, love, and all our future dreams coming true together.
+        </div>
+        <!-- Media container with both map and photo -->
+        <div class="location-media">
+            <!-- Google Maps Embed with updated coordinates -->
+            <iframe class="location-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3158.925550664918!2d-122.06975387607654!3d37.665900272056665!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDM5JzU3LjEiTiAxMjLCsDA0JzAzLjIiVw!5e0!3m2!1sen!2sus!4v1627318472232!5m2!1sen!2sus" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <!-- Updated home photo -->
+            <img class="location-photo" src="img/imgHome.jpeg" alt="Our Family at Home">
+        </div>
+        <div class="clue-hint">Without you, it would just be empty rooms...</div>
+        <button class="reveal-question-btn">I'm Here, Show Me the Question!</button>
+    </div>
+    
+    <!-- Quiz Container (initially hidden) -->
+<div class="quiz-container">
+    <div class="quiz-question">When did we first meet?</div>
+    <input type="date" class="quiz-input date-picker" data-answer="2022-10-05" placeholder="Select date...">
+    <button class="quiz-submit">Submit</button>
+    <div class="quiz-feedback"></div>
+</div>
+    
+    <div class="text">
+         <h1>You are my <em>home</em>, wherever we go</h1>
+         <p>Every moment with you is where I belong</p>
+    
+    <div id="boyfriend"></div>
+    </div>
+</div>
+    
+<!-- Walnut Creek Breakfast Section -->
+<div class="section">
+    <div class="clue-card">
+        <div class="clue-title">Walnut Creek Morning</div>
+        <div class="clue-content">
+            Every morning with you feels like the first sunlight breaking through darkness. Your smile over coffee is the only nourishment my soul needs. You deserve to wake to joy and fall asleep to peace, every single day. In your eyes, I've found my forever breakfast view.
+        </div>
+        <div class="location-media">
+            <iframe class="location-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3150.7665613095787!2d-122.06249358477548!3d37.89491039452726!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDUzJzQxLjciTiAxMjLCsDAzJzM3LjEiVw!5e0!3m2!1sen!2sus!4v1627318732651!5m2!1sen!2sus" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <img class="location-photo" src="img/walnutCreek.jpg" alt="Breakfast in Walnut Creek">
+        </div>
+        <div class="clue-hint">Your smile is sweeter than any pastry...</div>
+        <button class="reveal-question-btn">I'm Here, Show Me the Question!</button>
+    </div>
+    
+<div class="quiz-container">
+    <div class="quiz-question">When did we get married?</div>
+    <input type="date" class="quiz-input date-picker" data-answer="2023-06-13" placeholder="Select date...">
+    <button class="quiz-submit">Submit</button>
+    <div class="quiz-feedback"></div>
+</div>
+    
+    <div class="text">
+        <h1>Your joy is my <em>sustenance</em></h1>
+        <p>I live to see another sunrise with you</p>
+        <div style="padding: 1em 20%; width: 220px; margin: 0 auto;">
+            <div id="book"></div>
+            <div id="psp"></div>
+        </div>
+    </div>
+</div>
+    
+<!-- Tiburon Section -->
+<div class="section">
+    <div class="clue-card">
+        <div class="clue-title">Tiburon Shoreline Views</div>
+        <div class="clue-content">
+            The vastness of this bay pales beside the depth of my feelings for you. While others see water meeting sky, I see only reflections of your boundless spirit. You've given meaning to every view, turning ordinary sights into breathtaking memories simply by standing beside me.
+        </div>
+        <div class="location-media">
+            <iframe class="location-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3149.7163899568187!2d-122.45919459477475!3d37.87315591270606!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDUyJzIzLjQiTiAxMjLCsDI3JzI1LjIiVw!5e0!3m2!1sen!2sus!4v1627318855736!5m2!1sen!2sus" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <img class="location-photo" src="img/tiburon.jpg" alt="Tiburon Shoreline">
+        </div>
+        <div class="clue-hint">You're the view I never want to look away from...</div>
+        <button class="reveal-question-btn">I'm Here, Show Me the Question!</button>
+    </div>
+    
+<div class="quiz-container">
+    <div class="quiz-question">When did I propose to you?</div>
+    <input type="date" class="quiz-input date-picker" data-answer="2023-03-13" placeholder="Select date...">
+    <button class="quiz-submit">Submit</button>
+    <div class="quiz-feedback"></div>
+</div>
+
+    
+    <div class="text">
+        <h1>No view compares to <em>your</em> beauty</h1>
+        <div id="tenzile"></div>
+    </div>
+</div>
+
+<!-- Muir Woods Section -->
+<div class="section">
+    <div class="clue-card">
+        <div class="clue-title">Majestic Muir Woods</div>
+        <div class="clue-content">
+            These ancient trees have witnessed centuries, yet they've never seen a love like mine for you. Like these redwoods, my devotion stands unshakable. Your strength, your grace - you're the forest that shelters my heart, the roots that ground my soul. In your arms, I've found my sanctuary.
+        </div>
+        <div class="location-media">
+            <iframe class="location-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3146.602769928184!2d-122.58255539477562!3d37.89716372655689!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzcuODk3MULCsDI3JzUwLjgiTg!5e0!3m2!1sen!2sus!4v1627318932736!5m2!1sen!2sus" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <img class="location-photo" src="img/muirWoods.jpg" alt="Muir Woods Redwoods">
+        </div>
+        <div class="clue-hint">My love will outlast even these ancient giants...</div>
+        <button class="reveal-question-btn">I'm Here, Show Me the Question!</button>
+    </div>
+    
+<div class="quiz-container">
+    <div class="quiz-question">When is our daughter's birthday?</div>
+    <input type="date" class="quiz-input date-picker" data-answer="2023-02-06" placeholder="Select date...">
+    <button class="quiz-submit">Submit</button>
+    <div class="quiz-feedback"></div>
+</div>
+    
+    <div class="text">
+        <h1>My love is <em>eternal</em> like these redwoods</h1>
+        <p>Growing stronger with every passing year</p>
+        <p><img id="tenzile_archer" src="img/section7.jpg"></p>
+    </div>
+</div>
+
+<!-- San Francisco Section -->
+<div class="section">
+    <div class="clue-card">
+        <div class="clue-title">San Francisco Moments</div>
+        <div class="clue-content">
+            In this city of countless lights, you're the only star I see. Every street corner holds the promise of your smile, every bridge a path to your heart. You deserve adventures that thrill your soul and quiet moments that speak to your spirit. With you, even the ordinary becomes magical.
+        </div>
+        <div class="location-media">
+            <iframe class="location-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.163855076744!2d-122.41308349478175!3d37.78572650040276!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDQ3JzA4LjYiTiAxMjLCsDI0JzM5LjIiVw!5e0!3m2!1sen!2sus!4v1627319023151!5m2!1sen!2sus" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <img class="location-photo" src="img/sanFrancisco.jpg" alt="San Francisco Cityscape">
+        </div>
+        <div class="clue-hint">You light up my life more than this city's skyline...</div>
+        <button class="reveal-question-btn">I'm Here, Show Me the Question!</button>
+    </div>
+    
+<div class="quiz-container">
+    <div class="quiz-question">When is my birthday?</div>
+    <input type="date" class="quiz-input date-picker" data-answer="1991-11-25" placeholder="Select date...">
+    <button class="quiz-submit">Submit</button>
+    <div class="quiz-feedback"></div>
+</div>
+    
+ 
+       <div class="text">
+        <h1>You <em>illuminate</em> my entire world</h1>
+        <p>Every adventure is extraordinary with you</p>
+        <p><img id="tenzile_archer" src="img/2.jpeg"></p>
+    </div>
+</div>
+
+<!-- Heart Animation Section - Updated Love Message -->
 <div class="section">
     <div class="heart-section-container">
-        <!-- Words container placed first in DOM for mobile -->
         <div id="words">
             <div id="messages" class="animate-message delay-1">
-                <h3>Tenzile, you've lived for</h3>
+                <h3>Tenzile, you've stolen my heart for</h3>
                 <div id="elapseClock"></div>
-                <h3>And we've been together for</h3>
+                <h3>Every second with you is pure magic</h3>
                 <div id="elapseRelationship"></div>
             </div>
             <div id="loveu" class="animate-message delay-2">
-                Every moment with you feels like magic, <br />
-                Your smile lights up my entire world.<br />
-                You are the melody in my heart's song.<br />
-                Every day with you is a beautiful journey.<br />
+                You're my first thought each morning,<br />
+                And my last prayer each night.<br />
+                Your touch calms my storms,<br />
+                Your laugh is my favorite melody.<br />
                 <span style="color:#FFFFFF">
-                    <big>Happy Birthday!</big>
+                    <big>Happy Birthday, My Love!</big>
                 </span>
                 <br />
                 <div class="signature">- Forever Yours</div>
@@ -81,213 +257,6 @@
     </div>
 </div>
     
-    <!-- Anniversary Section -->
-    <div class="section">
-        <!-- Clue component for the Anniversary section -->
-        <div class="clue-card">
-            <div class="clue-title">Golden Gate Bridge Memory</div>
-            <div class="clue-content">
-                Remember our walk across the Golden Gate Bridge? The foggy morning gave way to sunshine, just like how you brighten my days. The date engraved on the bridge plaque reminded me of our special day.
-            </div>
-            <!-- Media container with both map and photo -->
-            <div class="location-media">
-                <!-- Google Maps Embed -->
-                <iframe class="location-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d50480.53927096764!2d-122.49399524179687!3d37.819687900000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808586deffffffc3%3A0xcded139783705509!2sGolden%20Gate%20Bridge!5e0!3m2!1sen!2sus!4v1627318472232!5m2!1sen!2sus" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                <!-- Add photo from Unsplash -->
-                <img class="location-photo" src="https://images.unsplash.com/photo-1501594907352-04cda38ebc29?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80" alt="Golden Gate Bridge">
-            </div>
-            <div class="clue-hint">A bridge between two lives, joined on a day in May...</div>
-            <button class="reveal-question-btn">I'm Here, Show Me the Question!</button>
-        </div>
-        
-        <!-- Quiz Container (initially hidden) -->
-        <div class="quiz-container">
-            <div class="quiz-question">When did we become husband and wife?</div>
-            <input type="text" class="quiz-input" data-answer="may 17" data-alt-answers="may 17th,17 may,17th may" placeholder="Type your answer...">
-            <button class="quiz-submit">Submit</button>
-            <div class="quiz-feedback"></div>
-        </div>
-        
-        <div class="text">
-             <h1>May 17th is your <em>special day</em></h1>
-             <p>And it's also been one wonderful year since I became your husband</p>
-        
-        <div id="boyfriend"></div>
-        </div>
-    </div>
-    
-    <!-- Memories Section -->
-    <div class="section">
-        <!-- Clue component for the Memories section -->
-        <div class="clue-card">
-            <div class="clue-title">Stanford Library Whispers</div>
-            <div class="clue-content">
-                The Stanford library where we spent countless hours together. Between the ancient books and modern technology, we found joy in simply being together, whether reading quietly or playing games in the courtyard after studying.
-            </div>
-            <!-- Media container with both map and photo -->
-            <div class="location-media">
-                <!-- Google Maps Embed -->
-                <iframe class="location-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3168.2774110444347!2d-122.1688076847951!3d37.42757507982534!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fbae891e859ed%3A0x122def7e26c92b85!2sGreen%20Library%2C%20450%20Serra%20Mall%2C%20Stanford%2C%20CA%2094305!5e0!3m2!1sen!2sus!4v1627318732651!5m2!1sen!2sus" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                <!-- Add photo from Unsplash -->
-                <img class="location-photo" src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80" alt="Stanford Library">
-            </div>
-            <div class="clue-hint">Books of knowledge and screens of play, what did we enjoy most in those shared days?</div>
-            <button class="reveal-question-btn">I'm Here, Show Me the Question!</button>
-        </div>
-        
-        <!-- Quiz Container (initially hidden) -->
-        <div class="quiz-container">
-            <div class="quiz-question">What's one of our favorite activities to do together?</div>
-            <input type="text" class="quiz-input" data-answer="study" data-alt-answers="playing,study together,play together,reading,gaming" placeholder="Type your answer...">
-            <button class="quiz-submit">Submit</button>
-            <div class="quiz-feedback"></div>
-        </div>
-        
-        <div class="text">
-            <h1>We've shared so many beautiful moments this year...</h1>
-            <p>Every minute together, whether studying or playing, has been precious</p>
-        <div style="padding: 1em 20%; width: 220px; margin: 0 auto;">
-            <div id="book"></div>
-            <div id="psp"></div>
-        </div>
-        </div>
-
-    </div>
-    
-    <!-- Love Yourself Section -->
-    <div class="section">
-        <!-- Clue component for the Love Yourself section -->
-        <div class="clue-card">
-            <div class="clue-title">Muir Woods Reflection</div>
-            <div class="clue-content">
-                Under the ancient redwoods of Muir Woods, we found mirrors in nature. Just as I told you while standing beneath those towering trees — the way you care for these living monuments reflects how you should care for yourself.
-            </div>
-            <!-- Media container with both map and photo -->
-            <div class="location-media">
-                <!-- Google Maps Embed -->
-                <iframe class="location-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3146.6026716234634!2d-122.57717698477715!3d37.8992332797328!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80859a6d00690021%3A0x4a501367f076adff!2sMuir%20Woods%20National%20Monument!5e0!3m2!1sen!2sus!4v1627318855736!5m2!1sen!2sus" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                <!-- Add photo from Unsplash -->
-                <img class="location-photo" src="https://images.unsplash.com/photo-1511497584788-876760111969?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80" alt="Muir Woods Redwoods">
-            </div>
-            <div class="clue-hint">The words I whispered beneath ancient trees... a truth about love for oneself and others</div>
-            <button class="reveal-question-btn">I'm Here, Show Me the Question!</button>
-        </div>
-        
-        <!-- Quiz Container (initially hidden) -->
-        <div class="quiz-container">
-            <div class="quiz-question">Complete this sentence: "Always cherish yourself as much as..."</div>
-            <input type="text" class="quiz-input" data-answer="i cherish you" data-alt-answers="i love you,i do" placeholder="Type your answer...">
-            <button class="quiz-submit">Submit</button>
-            <div class="quiz-feedback"></div>
-        </div>
-        
-        <div class="text">
-            <h1>Always cherish yourself as much as I cherish you</h1>
-            <div id="tenzile"></div>
-        </div>
-    </div>
-    
-    <!-- Future Section -->
-    <div class="section">
-        <!-- Clue component for the Future section -->
-        <div class="clue-card">
-            <div class="clue-title">Half Moon Bay Sunset</div>
-            <div class="clue-content">
-                At Half Moon Bay, watching the sun set over endless possibilities, we talked about our future. As the waves crashed against the shore, I reminded you of the most important quality needed for any journey ahead.
-            </div>
-            <!-- Media container with both map and photo -->
-            <div class="location-media">
-                <!-- Google Maps Embed -->
-                <iframe class="location-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d50697.92806178875!2d-122.48549351347655!3d37.46359699999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808f731b33e1c81b%3A0x52ecd5e2d3f6d282!2sHalf%20Moon%20Bay%20State%20Beach!5e0!3m2!1sen!2sus!4v1627318932736!5m2!1sen!2sus" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                <!-- Add photo from Unsplash -->
-                <img class="location-photo" src="https://images.unsplash.com/photo-1500520198921-6d4704f98092?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80" alt="Half Moon Bay Sunset">
-            </div>
-            <div class="clue-hint">To face the unknown horizon requires something from within...</div>
-            <button class="reveal-question-btn">I'm Here, Show Me the Question!</button>
-        </div>
-        
-        <!-- Quiz Container (initially hidden) -->
-        <div class="quiz-container">
-            <div class="quiz-question">What quality do you need for your future journey?</div>
-            <input type="text" class="quiz-input" data-answer="confidence" data-alt-answers="courage,bravery,strength" placeholder="Type your answer...">
-            <button class="quiz-submit">Submit</button>
-            <div class="quiz-feedback"></div>
-        </div>
-        
-        <div class="text">
-            <h1>In all your future days ahead</h1>
-            <p>May you walk forward with confidence and courage!</p>
-            <p><img id="tenzile_archer" src="photo/IMG_20160305_183003.png"></p>
-        </div>
-    </div>		
-    
-    <!-- Song Section -->
-    <div class="section">
-        <!-- Clue component for the Song section -->
-        <div class="clue-card">
-            <div class="clue-title">Fillmore Street Melodies</div>
-            <div class="clue-content">
-                Remember our evening at the jazz concert on Fillmore Street? The music filled the air and brought smiles to our faces. Music has a special way of connecting to our emotions, just like this song I've chosen for you.
-            </div>
-            <!-- Media container with both map and photo -->
-            <div class="location-media">
-                <!-- Google Maps Embed -->
-                <iframe class="location-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.9407863675473!2d-122.43530968478314!3d37.78423587975805!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808580bba1596e51%3A0x5e8b569f611b66f5!2sFillmore%20St%2C%20San%20Francisco%2C%20CA!5e0!3m2!1sen!2sus!4v1627319023151!5m2!1sen!2sus" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                <!-- Add photo from Unsplash -->
-                <img class="location-photo" src="https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80" alt="Jazz Concert">
-            </div>
-            <div class="clue-hint">The melody brings an emotion that celebrates life...</div>
-            <button class="reveal-question-btn">I'm Here, Show Me the Question!</button>
-        </div>
-        
-        <!-- Quiz Container (initially hidden) -->
-        <div class="quiz-container">
-            <div class="quiz-question">How does this song make you feel?</div>
-            <input type="text" class="quiz-input" data-answer="happy" data-alt-answers="loved,special,joy,joyful" placeholder="Type your answer...">
-            <button class="quiz-submit">Submit</button>
-            <div class="quiz-feedback"></div>
-        </div>
-        
-        <div class="text">
-            <h1>Here's a birthday song just for you</h1>
-            <audio id="song" src="song.m4a" controls="controls"></audio>
-        </div>
-    </div>
-    
-    <!-- Easter Egg Section -->
-    <div class="section fp-auto-height final_section">
-        <!-- Clue component for the Easter Egg section -->
-        <div class="clue-card">
-            <div class="clue-title">Sausalito's Hidden Pathway</div>
-            <div class="clue-content">
-                On that hidden pathway in Sausalito, where we found those handmade artworks, I confessed something about my drawings. Though they weren't masterpieces, something else about them was absolutely perfect.
-            </div>
-            <!-- Media container with both map and photo -->
-            <div class="location-media">
-                <!-- Google Maps Embed -->
-                <iframe class="location-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12590.028723288127!2d-122.49542336980963!3d37.85883284450841!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808585d240d5c81b%3A0x92cf8f427cdca79a!2sSausalito%2C%20CA%2094965!5e0!3m2!1sen!2sus!4v1627319139736!5m2!1sen!2sus" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                <!-- Add photo from Unsplash -->
-                <img class="location-photo" src="https://images.unsplash.com/photo-1548516173-3cabfa4607e9?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80" alt="Sausalito Pathway">
-            </div>
-            <div class="clue-hint">Imperfect lines drawn with something flawless...</div>
-            <button class="reveal-question-btn">I'm Here, Show Me the Question!</button>
-        </div>
-        
-        <!-- Quiz Container (initially hidden) -->
-        <div class="quiz-container">
-            <div class="quiz-question">What is perfect even if the drawings aren't?</div>
-            <input type="text" class="quiz-input" data-answer="love" data-alt-answers="your love,my love,our love,love for you" placeholder="Type your answer...">
-            <button class="quiz-submit">Submit</button>
-            <div class="quiz-feedback"></div>
-        </div>
-        
-        <div>
-            <h1><del>Secret Message</del></h1>
-            <p>Okay, I know my drawings aren't perfect, but my love for you is!</p>
-        </div>
-    </div>
- </div>  
-    
 <!-- Core Scripts -->
 <script src='js/jquery.js'></script>
 <script type="text/javascript" src="js/jquery.fullPage.js"></script>
@@ -299,7 +268,7 @@
 <script type="text/javascript" src="js/index.js"></script>
 
 <!-- Component Scripts -->
-<script type="text/javascript" src="js/messages.js"></script>
+<script type="text/javascript" src="js/message.js"></script>
 <script type="text/javascript" src="js/timers.js"></script>
 <script type="text/javascript" src="js/quiz-handler.js"></script>
 <script src="js/verifier.js"></script>

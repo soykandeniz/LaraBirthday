@@ -31,21 +31,18 @@ $(document).ready(function () {
         console.log("Quiz now visible");
     });
 
-    // Answer validation with fixed handling
+    // Answer validation for date inputs
     $('.quiz-submit').off('click').on('click', function () {
         var submit = $(this);
         var quizContainer = submit.closest('.quiz-container');
         var input = quizContainer.find('.quiz-input');
         var feedback = quizContainer.find('.quiz-feedback');
 
-        var userAnswer = input.val().trim().toLowerCase();
-        var correctAnswer = input.data('answer').toLowerCase();
-        var altAnswers = input.data('alt-answers') ?
-            input.data('alt-answers').toLowerCase().split(',') : [];
+        var userAnswer = input.val(); // Get the date string from the input
+        var correctAnswer = input.data('answer'); // Expected format: YYYY-MM-DD
 
-        // Check for correct answer
-        var isCorrect = userAnswer === correctAnswer ||
-            altAnswers.some(function (alt) { return userAnswer === alt.trim(); });
+        // Check if the date matches
+        var isCorrect = userAnswer === correctAnswer;
 
         if (isCorrect) {
             feedback.text('Correct! Moving to next section...').removeClass('incorrect').addClass('correct');
@@ -72,17 +69,17 @@ $(document).ready(function () {
         }
     });
 
-    // Enable Enter key for answer submission
-    $('.quiz-input').off('keypress').on('keypress', function (e) {
-        if (e.which === 13) {
-            e.preventDefault();
-            $(this).closest('.quiz-container').find('.quiz-submit').click();
+    // Add some custom styling for date inputs
+    $('<style>').text(`
+        .date-picker {
+            font-size: 16px !important;
+            padding: 10px !important;
+            border-radius: 25px !important;
+            text-align: center !important;
+            width: auto !important;
+            min-width: 200px !important;
+            margin: 15px auto !important;
+            display: block !important;
         }
-    });
-
-    // Make sure clue cards are visible with proper desktop sizing
-    $('.clue-card').css({
-        'visibility': 'visible',
-        'opacity': '1'
-    });
+    `).appendTo('head');
 });

@@ -147,7 +147,7 @@ var pathObj = {
             "width": 596,
             "height": 842
         }
-    },
+    }
 
 };
 

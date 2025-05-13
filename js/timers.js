@@ -3,6 +3,13 @@ $(document).ready(function () {
 
     // 1. Override the original heart animation completion function
     window.startHeartAnimation = function () {
+        // Only start heart animation if we're actually in section 8
+        var currentSection = $('.section.active').index() + 1;
+        if (currentSection !== 8) {
+            console.log("Preventing heart animation in section: " + currentSection);
+            return; // Exit early if not in section 8
+        }
+
         console.log("OVERRIDE: Starting heart animation");
 
         // Clear any existing interval
@@ -215,8 +222,7 @@ $(document).ready(function () {
     $(document).on('afterLoad', function (anchorLink, index) {
         console.log("Section changed to:", index);
 
-        if (index === 2) { // Heart animation section
-            // Force restart the heart animation when this section becomes active
+        if (index === 8) { // Heart animation section (was incorrectly set to 2)
             setTimeout(function () {
                 if (typeof window.startHeartAnimation === 'function') {
                     window.startHeartAnimation();
@@ -224,6 +230,13 @@ $(document).ready(function () {
             }, 200);
         }
     });
+
+    setTimeout(function () {
+        // If we're on section 8, start the animation
+        if ($('.section').eq(7).hasClass('active')) {
+            window.startHeartAnimation();
+        }
+    }, 500);
 
     // 6. Override other functions to prevent conflicts
     window.showMessages = ourShowMessages;
@@ -238,8 +251,8 @@ $(document).ready(function () {
 
     // Initialize on page load to make sure everything is set up
     setTimeout(function () {
-        // If we're on section 2, start the animation
-        if ($('.section').eq(1).hasClass('active')) {
+        // Change this from section 2 (index 1) to section 8 (index 7)
+        if ($('.section').eq(7).hasClass('active')) {  // This should be eq(7)
             window.startHeartAnimation();
         }
     }, 500);
