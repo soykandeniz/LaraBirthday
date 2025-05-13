@@ -12,6 +12,12 @@ var pageAnimations = {
 	initialize: function () {
 		// Edge browser detection 
 		var NavigatorName = navigator.userAgent.toLowerCase();
+		$('.clue-card').removeClass('show').css({
+			'opacity': '0',
+			'visibility': 'hidden',
+			'transform': 'translateY(20px)'
+		});
+
 		if (NavigatorName.indexOf('edge') != -1) {
 			$('#firstsection').empty();
 			$('#firstsection').append('<h1>I\'m so sorry, but Edge browser doesn\'t support the birthday cake animation. Please view this with Firefox for the best experience!</h1>');
@@ -79,15 +85,43 @@ var pageAnimations = {
 		var originalSvgPaint = window.svgpaint || function () { };
 
 		window.svgpaint = function (index) {
-			// Section indices are 1-based, svgIndex should be:
-			// Section 3 (boyfriend) -> svgIndex 0
-			// Section 4 (book,psp) -> svgIndex 1
-			// Section 5 (tenzile) -> svgIndex 2
-			if (index < 3 || index > 5) {
-				return; // Only process sections 3-5 that have SVGs
+			// Update to handle sections 3-8
+			if (index < 3 || index > 8) {
+				return; // Only process sections 3-8
 			}
 
 			var svgIndex = index - 3;
+			var currentSection = $('.section').eq(index - 1);
+
+			// For sections 6-8 that don't have SVG animations, display clue card after delay
+			if (index >= 6 && index <= 8) {
+				console.log("Processing non-SVG section:", index);
+
+				// Ensure text is visible
+				currentSection.find('.text').show();
+				currentSection.find('.clue-card').removeClass('show').css({
+					'opacity': '0',
+					'visibility': 'hidden',
+					'transform': 'translateY(20px)'
+				});
+
+				// After a delay, fade out text and show clue card
+				setTimeout(function () {
+					currentSection.find('.text').fadeOut(1000, function () {
+						currentSection.find('.clue-card').addClass('show');
+					});
+				}, 5000); // Increased from 2000ms to 5000ms (5 seconds) to give more reading time
+
+				return;
+			}
+
+			// For sections 3-5 with SVG animations, continue with existing code
+			currentSection.find('.text').show();
+			currentSection.find('.clue-card').removeClass('show').css({
+				'opacity': '0',
+				'visibility': 'hidden',
+				'transform': 'translateY(20px)'
+			});
 
 			// Clean up existing animations before repainting
 			if (svgIndex === 0) {
@@ -113,7 +147,17 @@ var pageAnimations = {
 				$('#psp').lazylinepainter({
 					"svgData": pathObj,
 					"strokeWidth": 5,
-					"strokeColor": '#916F6F'
+					"strokeColor": '#916F6F',
+					// Add onComplete callback to the LAST element
+					"onComplete": function () {
+						// Show the clue card after animation completes
+						var section = $('#psp').closest('.section');
+						setTimeout(function () {
+							section.find('.text').fadeOut(500, function () {
+								section.find('.clue-card').addClass('show');
+							});
+						}, 1000); // Wait 1 second after drawing completes
+					}
 				}).lazylinepainter('paint');
 			} else {
 				var selector = svgIndex === 0 ? '#boyfriend' :
@@ -123,7 +167,17 @@ var pageAnimations = {
 					$(selector).lazylinepainter({
 						"svgData": pathObj,
 						"strokeWidth": 5,
-						"strokeColor": '#916F6F'
+						"strokeColor": '#916F6F',
+						// Add onComplete callback
+						"onComplete": function () {
+							// Show the clue card after animation completes
+							var section = $(selector).closest('.section');
+							setTimeout(function () {
+								section.find('.text').fadeOut(500, function () {
+									section.find('.clue-card').addClass('show');
+								});
+							}, 1000); // Wait 1 second after drawing completes
+						}
 					}).lazylinepainter('paint');
 				}
 			}
@@ -346,16 +400,28 @@ var pageAnimations = {
 					$("#tenzile").removeClass('animated fadeInUp').addClass('hide');
 				}
 				else if (index === 6) {
-					$("#tenzile_archer").removeClass('animated flipInX').addClass('hide');
+					$("#tenzile_archer").addClass('animated fadeInUp');
+					// Trigger the same pattern as SVG sections
+					if (typeof svgpaint === 'function') {
+						svgpaint(index);
+					}
 				}
 				else if (index === 7) {
-					$("#song").removeClass('animated fadeInUp').addClass('hide');
-					var audioElement = document.getElementById('song');
-					if (audioElement) audioElement.pause();
+					$("#song").addClass('animated fadeInUp');
+					// Trigger the same pattern as SVG sections
+					if (typeof svgpaint === 'function') {
+						svgpaint(index);
+					}
+				}
+				else if (index === 8) {
+					// Trigger the same pattern as SVG sections
+					if (typeof svgpaint === 'function') {
+						svgpaint(index);
+					}
 				}
 
-				// SECOND: Pre-load the NEXT section's SVG elements
-				if (nextIndex >= 3 && nextIndex <= 5) {
+				// In your onLeave function where you prepare the next section
+				if (nextIndex >= 3 && nextIndex <= 8) {
 					// First make the SVG elements visible 
 					if (nextIndex === 3) {
 						$("#boyfriend").removeClass('hide');
@@ -458,6 +524,9 @@ var pageAnimations = {
 				// Add entrance animations
 				if (index === 3) {
 					$("#boyfriend").addClass('animated fadeInUp');
+				}
+				if (index >= 3 && index <= 5) {
+					$('.section').eq(index - 1).find('.clue-card').removeClass('show');
 				}
 				else if (index === 4) {
 					$("#book, #psp").addClass('animated fadeInUp');

@@ -1,0 +1,83 @@
+/* Layout and responsive styles */
+
+/* FIX 1: Better quiz container visibility control */
+.quiz-container {
+  display: none !important;
+}
+
+.quiz-container.show-quiz {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* FIX 2: Media container for showing both map and photos */
+.location-media {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin: 15px 0;
+  justify-content: center;
+}
+
+
+/* FIX 3: Desktop appearance improvements */
+@media (min-width: 992px) {
+  .clue-card {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .quiz-container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+}
+
+/* Improved vertical centering for text within sections */
+.section {
+  position: relative;
+}
+
+.section .text {
+  position: absolute;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  text-align: center;
+  z-index: 10;
+}
+
+.section .text h1 {
+  font-size: 2.2em;
+  margin-bottom: 15px;
+}
+
+.section .text p {
+  font-size: 1.3em;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+
+/* Make sure the fullPage.js vertical centering doesn't conflict */
+.fp-tableCell {
+  vertical-align: middle;
+}
+
+/* This ensures that text is properly visible on mobile */
+@media (max-width: 768px) {
+  .section .text {
+    width: 95%;
+    max-width: none;
+  }
+
+  .section .text h1 {
+    font-size: 1.8em;
+    margin-top: 0;
+  }
+
+  .section .text p {
+    font-size: 1.1em;
+  }
+}

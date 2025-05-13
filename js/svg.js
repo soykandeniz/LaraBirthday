@@ -5,10 +5,10 @@
  * http://lazylinepainter.info 
  * Copyright 2013, Cam O'Connell  
  *  
- */ 
- 
+ */
+
 var pathObj = {
-      "boyfriend": {
+    "boyfriend": {
         "strokepath": [
             {
                 "path": "M115.7,167.7c38.7-46.7,124.5-44.5,162,6c25.9,34.9,25.5,88.4-2.7,120.7c-41.8,48.1-133.8,36.4-166.7-18  C88.8,244,90.8,197.7,115.7,167.7z",
@@ -36,7 +36,7 @@ var pathObj = {
             "height": 600
         }
     },
-     "book": {
+    "book": {
         "strokepath": [
             {
                 "path": "M69.6,150.8c1.4,26.7-2.6,53.1-5.1,79.6c-2.5,26.8-3.6,53.8-3.9,80.7c-0.3,26.6,0.1,53.3,0.5,79.9    c0.1,4.1-0.7,9.6,1.3,13.4c2.4,4.5,8.4,6.5,12.7,8.5c10.3,4.8,21.1,8.7,32.1,11.6c50.3,13,100.4-0.7,150.9-4.4    c6-0.4,12-0.7,18-0.8c4.5-0.1,10,0.7,14.3-1.4c3.6-1.8,5.5-5.3,6.9-8.9c2.2-5.8,3.8-12,5.2-18c5.4-23.5,6.1-47.9,4.7-71.9    c-3.6-58.9-20.7-116.9-15.3-176.3c0.1-0.6-0.5-1.3-1.1-1.4c-18.4-5-37.9-5-56.8-6.1c-20.3-1.2-40.5-2.4-60.8-3.6    c-33.4-2-70.6-6.7-100.5,11.7c-1.6,1-0.1,3.6,1.5,2.6c30-18.4,67.6-13.1,101-11.2c18.9,1.1,37.9,2.3,56.8,3.4    c19.3,1.2,39.2,1,58,6.1c-0.4-0.5-0.7-1-1.1-1.4c-4.6,50.1,6.9,99.4,12.8,148.9c2.8,23.3,4.3,46.9,2.3,70.4    c-1,12.2-3.1,24.3-6.3,36.2c-1.4,4.9-2.6,12.3-6.5,15.8c-4.5,4.1-14,2.3-19.6,2.4c-48.7,1.5-97.1,16.3-145.9,8.8    c-11.1-1.7-22.1-4.5-32.7-8.3c-5.5-1.9-10.8-4.1-16.1-6.6c-2.5-1.2-5.4-2.3-7.7-3.9c-4.2-2.8-4.6-6-4.7-10.5    c-0.5-25.3-0.9-50.6-0.7-76c0.2-28.3,1.1-56.5,3.6-84.7c2.5-28.1,7-56.2,5.5-84.5C72.5,148.9,69.5,148.9,69.6,150.8L69.6,150.8z",
@@ -64,7 +64,7 @@ var pathObj = {
             "height": 600
         }
     },
-      "psp": {
+    "psp": {
         "strokepath": [
             {
                 "path": "M148.4,206.5l120-0.2c52.2,0,94.5,80.9,94.5,180.8c-34.1,34.7-55.2,38.9-68.5,34.9c-18.1-5.4-17-24.4-41.1-39.7  c-23-14.7-58.9-19.5-82.9-4.8c-25.9,15.9-21.1,44.1-41.1,50c-21,6.2-51.1-17.6-62.3-40.4c-33.9-69.2,41.2-185.2,84.9-180.8  c19.4,1.9,24.9,27.1,53.4,31.5c22.2,3.4,42.6-8.3,56.2-18.5",
@@ -147,53 +147,86 @@ var pathObj = {
             "width": 596,
             "height": 842
         }
-    }
-            
-}; 
- 
- 
- 
- 
- 
+    },
+
+};
+
+
+
+
+
 /* 
  Setup and Paint your lazyline! 
- */ 
- var svg_objects = ['#boyfriend','#book,#psp','#tenzile'];
- 
- 
- 
- 
-svgpaint = function(index)
- {
- 	if(index - 2 < 0)
- 	{
- 		return;
- 	}
- 	
- 	index = index -2;
- 	//这里要跳过第一个蛋糕吧大概
- 	console.log(svg_objects[index]);
- 	$(svg_objects[index]).lazylinepainter( 
-	 {
-	    "svgData": pathObj,
-	    "strokeWidth": 5,
-	    "strokeColor": '#916F6F'
-	}).lazylinepainter('paint'); 
- };
- 
- 
-// $(document).ready(function(){ 
-// $('#boyfriend').lazylinepainter( 
+ */
+var svg_objects = ['#boyfriend', '#book,#psp', '#tenzile'];
+
+svgpaint = function (index) {
+    if (index - 2 < 0) {
+        return;
+    }
+
+    index = index - 2;
+
+    // Rest of existing code...
+
+    // After painting completion, show the clue card
+    var selector = svgIndex === 0 ? '#boyfriend' :
+        (svgIndex === 2 ? '#tenzile' : null);
+
+    if (selector) {
+        $(selector).lazylinepainter({
+            "svgData": pathObj,
+            "strokeWidth": 5,
+            "strokeColor": '#916F6F',
+            // Add onComplete callback
+            "onComplete": function () {
+                // Show the clue card after animation completes
+                var section = $(selector).closest('.section');
+                setTimeout(function () {
+                    section.find('.text').fadeOut(500, function () {
+                        section.find('.clue-card').addClass('show');
+                    });
+                }, 1000); // Wait 1 second after drawing completes
+            }
+        }).lazylinepainter('paint');
+    } else if (svgIndex === 1) {
+        // For book/psp section
+        $('#book').lazylinepainter({
+            "svgData": pathObj,
+            "strokeWidth": 5,
+            "strokeColor": '#916F6F'
+        }).lazylinepainter('paint');
+
+        $('#psp').lazylinepainter({
+            "svgData": pathObj,
+            "strokeWidth": 5,
+            "strokeColor": '#916F6F',
+            // Add onComplete callback to the last element only
+            "onComplete": function () {
+                // Show the clue card after animation completes
+                var section = $('#psp').closest('.section');
+                setTimeout(function () {
+                    section.find('.text').fadeOut(500, function () {
+                        section.find('.clue-card').addClass('show');
+                    });
+                }, 1000); // Wait 1 second after drawing completes
+            }
+        }).lazylinepainter('paint');
+    }
+}
+
+// $(document).ready(function(){
+// $('#boyfriend').lazylinepainter(
 // {
 //  "svgData": pathObj,
 //  "strokeWidth": 2,
 //  "strokeColor": "#e09b99"
-//}).lazylinepainter('paint'); 
-// $('#book').lazylinepainter( 
+//}).lazylinepainter('paint');
+// $('#book').lazylinepainter(
 // {
 //  "svgData": pathObj,
 //  "strokeWidth": 2,
 //  "strokeColor": "#e09b99",
 //  'delay' : 1000
-//}).lazylinepainter('paint'); 
+//}).lazylinepainter('paint');
 // });

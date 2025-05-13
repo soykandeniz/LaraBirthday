@@ -74,6 +74,20 @@
   animation-duration: 0.8s;
 }
 
+.reveal-question-btn {
+  background: linear-gradient(to right, #d45d79, #f8a5c2) !important;
+  font-family: 'Lato', sans-serif;
+  letter-spacing: 1px;
+  box-shadow: 0 3px 10px rgba(212, 93, 121, 0.3) !important;
+  transition: all 0.4s ease !important;
+}
+
+.reveal-question-btn:hover {
+  background: linear-gradient(to right, #f8a5c2, #d45d79) !important;
+  transform: translateY(-3px) !important;
+  box-shadow: 0 5px 15px rgba(212, 93, 121, 0.4) !important;
+}
+
 .animated {
   animation-fill-mode: both;
   animation-duration: 0.8s;
@@ -95,6 +109,65 @@
   }
 }
 
+.quiz-container {
+  display: none !important;
+}
+
+.quiz-container.show-quiz {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* FIX 2: Media container for showing both map and photos */
+.location-media {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin: 15px 0;
+  justify-content: center;
+}
+
+/* Add styles for disabled location button */
+.reveal-question-btn {
+  position: relative;
+}
+
+.reveal-question-btn:disabled {
+  background: linear-gradient(to right, #cccccc, #dddddd) !important;
+  color: #999999 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.reveal-question-btn:disabled:hover {
+  background: linear-gradient(to right, #cccccc, #dddddd) !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.location-status {
+  font-size: 0.85em;
+  color: #d45d79;
+  margin-top: 5px;
+  font-style: italic;
+}
+
+/* FIX 3: Desktop appearance improvements */
+@media (min-width: 992px) {
+  .clue-card {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .quiz-container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+}
+
+
 /* Large Desktop screens */
 @media (min-width: 1200px) {
   .quiz-container {
@@ -103,11 +176,12 @@
   }
 
   .quiz-question {
-    font-size: 1.4em;
+    font-size: 1.6em !important;
   }
 
   .quiz-input {
-    width: 70%;
+    font-size: 1.2em !important;
+    padding: 15px !important;
   }
 }
 

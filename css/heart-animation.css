@@ -1,0 +1,221 @@
+/* Heart Animation Styles */
+.heart-initials {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 15;
+    font-family: 'Lato', cursive, sans-serif;
+    font-size: 4rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.85);
+    text-shadow:
+        0 0 5px #fff,
+        0 0 10px #fff,
+        0 0 15px #ee9ca7,
+        0 0 20px #ee9ca7,
+        0 0 25px #ee9ca7,
+        0 0 30px #ee9ca7;
+    letter-spacing: 3px;
+    opacity: 0;
+    transition: opacity 1s ease-in;
+}
+
+.heart-initials.show {
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    .heart-initials {
+        font-size: 3rem;
+    }
+}
+
+@keyframes slideUpFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(100px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-up {
+    animation: slideUpFadeIn 1.8s ease-out forwards !important;
+}
+
+.delay-1 {
+    animation-delay: 0.2s;
+}
+
+.delay-2 {
+    animation-delay: 0.7s;
+}
+
+#words {
+    font-family: 'Lato', 'Playfair Display', serif;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    transition: all 0.5s ease;
+}
+
+#messages {
+    background-color: rgba(255, 255, 255, 0.25);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+#messages h3 {
+    font-family: 'Dancing Script', cursive !important;
+    font-size: 1.8em !important;
+    font-weight: 700;
+    color: #fff !important;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+#elapseClock,
+#elapseRelationship {
+    font-family: 'Lato', sans-serif;
+    font-size: 1.1em;
+    color: #fff;
+    margin: 10px 0 15px 0;
+    letter-spacing: 0.5px;
+}
+
+.digit {
+    font-weight: bold;
+    background: linear-gradient(45deg, #ffaabb, #ff7799);
+    padding: 2px 6px;
+    border-radius: 5px;
+    display: inline-block;
+    margin: 0 3px;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+#loveu {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 240, 245, 0.9)) !important;
+    border: 1px solid rgba(212, 93, 121, 0.3) !important;
+    font-family: 'Lato', sans-serif;
+    line-height: 1.8;
+    color: #8b6a60 !important;
+}
+
+#loveu big {
+    font-family: 'Parisienne', 'Great Vibes', cursive !important;
+    font-size: 2em !important;
+    background: linear-gradient(45deg, #d45d79, #ff9a9e) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    margin: 15px 0 !important;
+}
+
+.signature {
+    font-family: 'Dancing Script', cursive !important;
+    font-size: 1.5em !important;
+    color: #d45d79 !important;
+}
+
+.signature {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.3em;
+    margin-top: 12px;
+    color: #ff6b8b;
+    text-align: right;
+}
+
+
+/* Container for proper positioning */
+.heart-section-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Updated message container styling */
+#words {
+    display: none;
+    /* Hide initially */
+    z-index: 50 !important;
+}
+
+/* Mobile positioning - ABOVE heart */
+@media (max-width: 768px) {
+    #words {
+        position: absolute !important;
+        top: 10px !important;
+        left: 0 !important;
+        width: 100% !important;
+        z-index: 100 !important;
+        text-align: center !important;
+        order: -1;
+        /* Place before heart */
+    }
+
+    #loveu big {
+        font-size: 1.7em !important;
+    }
+
+    #mainDiv {
+        margin-top: 200px !important;
+    }
+
+    #messages h3 {
+        font-size: 1.4em;
+    }
+
+    #elapseClock,
+    #elapseRelationship {
+        font-size: 0.9em;
+    }
+
+    #loveu {
+        font-size: 0.95em;
+    }
+}
+
+/* Tablet positioning */
+@media (min-width: 769px) and (max-width: 1199px) {
+    #words {
+        position: absolute !important;
+        top: 100px !important;
+        left: 20px !important;
+        width: 300px !important;
+        text-align: left !important;
+        z-index: 100 !important;
+    }
+}
+
+/* Desktop positioning */
+@media (min-width: 1200px) {
+    #words {
+        position: absolute !important;
+        top: 150px !important;
+        left: 50px !important;
+        width: 600px !important;
+        text-align: left !important;
+        z-index: 100 !important;
+    }
+
+    #loveu big {
+        font-size: 2.4em !important;
+    }
+}
+
+
+/* Center the heart container properly */
+#mainDiv {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    height: 100% !important;
+}

@@ -14,26 +14,14 @@
 }
 
 .clue-card::before {
-  content: "";
-  position: absolute;
-  top: -10px;
-  left: -10px;
-  right: -10px;
-  bottom: -10px;
-  background: linear-gradient(45deg, #ee9ca780, #66cccc80, #ffcc6680);
-  z-index: -1;
-  filter: blur(15px);
-  opacity: 0.6;
+  background: linear-gradient(45deg, #ee9ca780, #ffd1dc80, #ffb6c180) !important;
 }
 
 .clue-title {
-  font-family: 'Lato', sans-serif;
-  color: #8b6a60;
-  font-size: 1.1em;
-  margin-bottom: 10px;
-  font-weight: bold;
-  position: relative;
-  display: inline-block;
+  font-family: 'Great Vibes', 'Dancing Script', cursive !important;
+  font-size: 1.8em !important;
+  color: #d45d79 !important;
+  letter-spacing: 1px;
 }
 
 .clue-title::after {
@@ -128,6 +116,19 @@
   width: 100%;
 }
 
+.section .clue-card {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transform: translateY(20px) !important;
+  transition: opacity 0.8s ease, transform 0.8s ease, visibility 0.8s ease;
+}
+
+.section .clue-card.show {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateY(0) !important;
+}
+
 .location-map,
 .location-photo {
   flex: 1;
@@ -141,12 +142,15 @@
 }
 
 .location-photo {
-  transition: transform 0.3s ease;
+  border: 5px solid white !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.4s ease !important;
 }
 
 .location-photo:hover {
-  transform: scale(1.05);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05) rotate(1deg) !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+  border-color: #ffeff4 !important;
 }
 
 @media (max-width: 768px) {
@@ -189,6 +193,19 @@
     font-size: 1.1em;
   }
 
+  .clue-title {
+    font-size: 2.2em !important;
+  }
+
+  .clue-content {
+    font-size: 1.3em !important;
+    line-height: 1.8;
+  }
+
+  .clue-hint {
+    font-size: 1.2em !important;
+  }
+
   .quiz-container {
     width: 70%;
     /* Match clue card width */
@@ -217,16 +234,29 @@
     max-width: 700px;
   }
 
-  .location-map,
-  .location-photo {
-    height: 250px;
+  .clue-title {
+    font-size: 2em !important;
   }
+
+  .clue-content {
+    font-size: 1.15em !important;
+  }
+
+  .clue-hint {
+    font-size: 1.05em !important;
+  }
+
+
 }
 
 @media (max-width: 768px) {
   .reveal-question-btn {
     padding: 8px 15px;
     font-size: 0.9em;
+  }
+
+  .clue-title {
+    font-size: 1.5em !important;
   }
 
   .clue-card {

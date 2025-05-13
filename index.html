@@ -8,50 +8,22 @@
   <title>Happy Birthday To Tenzile</title>
   <!-- Made with love for you, my darling - 2016.5.14 -->
 
+
+  <!-- Core Styles -->
+   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/animate.min.css" />
   <link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />
-  <link rel="stylesheet" href="css/default.css" type="text/css" rel="stylesheet">
-  <link rel="stylesheet" href="css/quiz.css" type="text/css" rel="stylesheet">
-  <link rel="stylesheet" href="css/clue.css" type="text/css" rel="stylesheet">
+  <link rel="stylesheet" href="css/default.css" type="text/css">
+  <link rel="stylesheet" href="css/quiz.css" type="text/css">
+  <link rel="stylesheet" href="css/clue.css" type="text/css">
   
-  <!-- Loading fullpage.js -->
+  <!-- New Component Styles -->
+  <link rel="stylesheet" href="css/heart-animation.css" type="text/css">
+  <link rel="stylesheet" href="css/layout.css" type="text/css">
+  
+  <!-- Full Page Plugin -->
   <link rel="stylesheet" type="text/css" href="css/jquery.fullPage.css" />
-
-  <style>
-    /* FIX 1: Better quiz container visibility control */
-    .quiz-container {
-      display: none !important;
-    }
-    
-    .quiz-container.show-quiz {
-      display: block !important;
-      opacity: 1 !important;
-      visibility: visible !important;
-    }
-    
-    /* FIX 2: Media container for showing both map and photos */
-    .location-media {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin: 15px 0;
-      justify-content: center;
-    }
-    
-    /* FIX 3: Desktop appearance improvements */
-    @media (min-width: 992px) {
-      .clue-card {
-        max-width: 900px; 
-        margin: 0 auto;
-      }
-      
-      .quiz-container {
-        max-width: 900px;
-        margin: 0 auto;
-      }
-    }
-  </style>
 </head> 
 
 <body>
@@ -73,40 +45,41 @@
         </div>
     </div>
 
-    <!-- Heart Animation Section -->
-    <div class="section">
-        <div style="position:relative; height:100%;">
-            <div id="mainDiv">
-                <div id="content">
-                    <div id="loveHeart">
-                    <canvas id="garden" width="670" height="625"></canvas>
-                        <div id="words">
-                            <div id="messages">
-                                Tenzile, you've lived for
-                                <div id="elapseClock"></div>
-                            </div>
-                            <div id="loveu">
-                                Every moment with you feels like magic, <br />
-                                Your smile lights up my entire world.<br />
-                                You are the melody in my heart's song.<br />
-                                Every day with you is a beautiful journey.<br />
-                                <span style="color:#FFFFFF">
-                                    <big>
-                                        Happy Birthday!
-                                    </big>
-                                </span>
-                                <br />
-                                <div class="signature">
-                                    - Forever Yours
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<!-- Heart Animation Section -->
+<div class="section">
+    <div class="heart-section-container">
+        <!-- Words container placed first in DOM for mobile -->
+        <div id="words">
+            <div id="messages" class="animate-message delay-1">
+                <h3>Tenzile, you've lived for</h3>
+                <div id="elapseClock"></div>
+                <h3>And we've been together for</h3>
+                <div id="elapseRelationship"></div>
             </div>
-            <canvas id="canvas" style="position:absolute; left:0; top:0; width:100%; height:100%; z-index:1;"></canvas>
+            <div id="loveu" class="animate-message delay-2">
+                Every moment with you feels like magic, <br />
+                Your smile lights up my entire world.<br />
+                You are the melody in my heart's song.<br />
+                Every day with you is a beautiful journey.<br />
+                <span style="color:#FFFFFF">
+                    <big>Happy Birthday!</big>
+                </span>
+                <br />
+                <div class="signature">- Forever Yours</div>
+            </div>
         </div>
+        
+        <div id="mainDiv">
+            <div id="content">
+               <div id="loveHeart">
+             <canvas id="garden" width="670" height="625"></canvas>
+            <div class="heart-initials">S & T</div>
+            </div>
+            </div>
+        </div>
+        <canvas id="canvas" style="position:absolute; left:0; top:0; width:100%; height:100%; z-index:1;"></canvas>
     </div>
+</div>
     
     <!-- Anniversary Section -->
     <div class="section">
@@ -138,8 +111,9 @@
         <div class="text">
              <h1>May 17th is your <em>special day</em></h1>
              <p>And it's also been one wonderful year since I became your husband</p>
-        </div>
+        
         <div id="boyfriend"></div>
+        </div>
     </div>
     
     <!-- Memories Section -->
@@ -172,11 +146,12 @@
         <div class="text">
             <h1>We've shared so many beautiful moments this year...</h1>
             <p>Every minute together, whether studying or playing, has been precious</p>
-        </div>
         <div style="padding: 1em 20%; width: 220px; margin: 0 auto;">
             <div id="book"></div>
             <div id="psp"></div>
         </div>
+        </div>
+
     </div>
     
     <!-- Love Yourself Section -->
@@ -313,7 +288,7 @@
     </div>
  </div>  
     
- <!-- jQuery v1.11.0 -->
+<!-- Core Scripts -->
 <script src='js/jquery.js'></script>
 <script type="text/javascript" src="js/jquery.fullPage.js"></script>
 <script src="js/jquery.lazylinepainter-1.7.0.min.js"></script>
@@ -323,95 +298,11 @@
 <script type="text/javascript" src="js/fireworks.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 
-<!-- FIX: Completely rewritten quiz functionality that won't conflict with existing code -->
-<script>
-$(document).ready(function() {
-    console.log("Quiz button handler loading");
-    
-    // Remove any existing handlers to avoid duplication
-    $('.reveal-question-btn').off('click');
-    
-    // Clean and direct approach to showing quizzes
-    $('.reveal-question-btn').on('click', function() {
-        console.log("Question button clicked");
-        
-        // Direct DOM references
-        var button = $(this);
-        var section = button.closest('.section');
-        var quizContainer = section.find('.quiz-container');
-        
-        // Hide button immediately
-        button.hide();
-        
-        // Use direct jQuery method to absolutely ensure visibility
-        quizContainer.css({
-            'display': 'block !important',
-            'opacity': '1 !important',
-            'visibility': 'visible !important'
-        });
-        
-        // Force display through class and direct style
-        quizContainer.addClass('show-quiz');
-        quizContainer.attr('style', 'display: block !important');
-        
-        console.log("Quiz now visible");
-    });
-    
-    // Answer validation with fixed handling
-    $('.quiz-submit').off('click').on('click', function() {
-        var submit = $(this);
-        var quizContainer = submit.closest('.quiz-container');
-        var input = quizContainer.find('.quiz-input');
-        var feedback = quizContainer.find('.quiz-feedback');
-        
-        var userAnswer = input.val().trim().toLowerCase();
-        var correctAnswer = input.data('answer').toLowerCase();
-        var altAnswers = input.data('alt-answers') ? 
-                        input.data('alt-answers').toLowerCase().split(',') : [];
-        
-        // Check for correct answer
-        var isCorrect = userAnswer === correctAnswer || 
-                       altAnswers.some(function(alt) { return userAnswer === alt.trim(); });
-        
-        if (isCorrect) {
-            feedback.text('Correct! Moving to next section...').removeClass('incorrect').addClass('correct');
-            
-            // Disable input and button
-            input.prop('disabled', true);
-            submit.prop('disabled', true);
-            
-            // Move to next section after delay
-            setTimeout(function() {
-                $.fn.fullpage.moveSectionDown();
-            }, 1500);
-        } else {
-            feedback.text('Try again!').removeClass('correct').addClass('incorrect');
-            
-            // Shake effect
-            quizContainer.css('transform', 'translateX(10px)');
-            setTimeout(function() {
-                quizContainer.css('transform', 'translateX(-10px)');
-                setTimeout(function() {
-                    quizContainer.css('transform', 'translateX(0)');
-                }, 100);
-            }, 100);
-        }
-    });
-    
-    // Enable Enter key for answer submission
-    $('.quiz-input').off('keypress').on('keypress', function(e) {
-        if (e.which === 13) {
-            e.preventDefault();
-            $(this).closest('.quiz-container').find('.quiz-submit').click();
-        }
-    });
-    
-    // Make sure clue cards are visible with proper desktop sizing
-    $('.clue-card').css({
-        'visibility': 'visible',
-        'opacity': '1'
-    });
-});
-</script>
+<!-- Component Scripts -->
+<script type="text/javascript" src="js/messages.js"></script>
+<script type="text/javascript" src="js/timers.js"></script>
+<script type="text/javascript" src="js/quiz-handler.js"></script>
+<script src="js/verifier.js"></script>
+
 </body>
 </html>
