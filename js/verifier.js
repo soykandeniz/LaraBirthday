@@ -76,7 +76,7 @@ $(document).ready(function () {
 
                         // If we found a matching location
                         if (closestLocation) {
-                            if (shortestDistance <= 10) {
+                            if (shortestDistance <= 100) {
                                 // User is within range!
                                 $btn.prop('disabled', false);
                                 $status.text(`You're at ${closestLocation}! (${shortestDistance.toFixed(1)} miles away)`).css('color', '#00cc99');
